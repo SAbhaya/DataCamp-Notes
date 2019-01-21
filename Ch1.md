@@ -1,4 +1,5 @@
-CH1
+# Chapter 1
+
 ## Simple Text
 
 ```r
@@ -242,4 +243,5 @@ shinyApp(ui, server)
 
 ***
 
+*End of Chapter 1*
 
