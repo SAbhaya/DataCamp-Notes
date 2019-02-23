@@ -10,9 +10,9 @@ output:
   flexdashboard::flex_dashboard
 ---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
+    ```{r setup, include=FALSE}
+    library(flexdashboard)
+    ```
 
 Column
 -----------------------------------------------------------------------
@@ -23,23 +23,20 @@ Column
 
 ```
 
-Column
------------------------------------------------------------------------
+    Column
+    -----------------------------------------------------------------------
 
-### Chart B
+    ### Chart B
 
-```{r}
+    ```{r}
 
-```
+     ```
 
-### Chart C
+    ### Chart C
 
-```{r}
+    ```{r}
 
-```
-
-```
-
+    ```
 
 ***
 
