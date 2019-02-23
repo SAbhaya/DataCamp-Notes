@@ -2,26 +2,24 @@
 
 ## Generating a dashboard
 
-```r
-
----
-title: "Bikeshare"
-output: 
-  flexdashboard::flex_dashboard
----
+    ---
+    title: "Bikeshare"
+    output: 
+    flexdashboard::flex_dashboard
+    ---
 
     ```{r setup, include=FALSE}
     library(flexdashboard)
     ```
 
-Column
------------------------------------------------------------------------
+    Column
+    -----------------------------------------------------------------------
 
-### Chart A
+    ### Chart A
 
-```{r}
+    ```{r}
 
-```
+    ```
 
     Column
     -----------------------------------------------------------------------
