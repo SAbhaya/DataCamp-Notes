@@ -4,6 +4,7 @@
 
 ## First peek under the hood
 
+```r
 
 library(shiny)
 library(ggplot2)
@@ -50,13 +51,18 @@ server <- function(input, output) {
 # Create a Shiny app object
 shinyApp(ui = ui, server = server)
 
+***
+
 ## Extend the UI
+
+```r
 
 library(shiny)
 library(ggplot2)
 load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_4850/datasets/movies.Rdata"))
 
 # Define UI for application that plots features of movies
+
 ui <- fluidPage(
   
   # Sidebar layout with a input and output definitions
@@ -93,7 +99,8 @@ ui <- fluidPage(
 
 # Define server function required to create the scatterplot
 server <- function(input, output) {
-  
+
+
   # Create the scatterplot object the plotOutput function is expecting
   output$scatterplot <- renderPlot({
     ggplot(data = movies, aes_string(x = input$x, y = input$y,
@@ -105,7 +112,8 @@ server <- function(input, output) {
 # Create a Shiny app object
 shinyApp(ui = ui, server = server)
 
-################
+```
+***
 
 library(shiny)
 library(ggplot2)
