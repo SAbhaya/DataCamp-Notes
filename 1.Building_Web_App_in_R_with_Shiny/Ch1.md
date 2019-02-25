@@ -51,6 +51,8 @@ server <- function(input, output) {
 # Create a Shiny app object
 shinyApp(ui = ui, server = server)
 
+```
+
 ***
 
 ## Extend the UI
@@ -114,6 +116,8 @@ shinyApp(ui = ui, server = server)
 
 ```
 ***
+
+```r
 
 library(shiny)
 library(ggplot2)
