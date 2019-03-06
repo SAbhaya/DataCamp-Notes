@@ -144,185 +144,185 @@ Adjust the column widths so that the first column is three times as wide as the 
 
 ## Row orientation
 
----
-title: "Bikeshare"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: rows
----
+	---
+	title: "Bikeshare"
+	output: 
+	  flexdashboard::flex_dashboard:
+	    orientation: rows
+	---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
+	```{r setup, include=FALSE}
+	library(flexdashboard)
+	```
 
-Column
------------------------------------------------------------------------
+	Column
+	-----------------------------------------------------------------------
 
-### Chart A
+	### Chart A
 
-```{r}
+	```{r}
 
-```
+	```
 
-Column
------------------------------------------------------------------------
+	Column
+	-----------------------------------------------------------------------
 
-### Chart B
+	### Chart B
 
-```{r}
+	```{r}
 
-```
+	```
 
-### Chart C
+	### Chart C
 
-```{r}
+	```{r}
 
-```
+	```
 
-***
+	***
 
-## Tabsets
+	## Tabsets
 
----
-title: "Bikeshare"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
----
+	---
+	title: "Bikeshare"
+	output: 
+	  flexdashboard::flex_dashboard:
+	    orientation: columns
+	---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
+	```{r setup, include=FALSE}
+	library(flexdashboard)
+	```
 
-Column{.tabset}
------------------------------------------------------------------------
+	Column{.tabset}
+	-----------------------------------------------------------------------
 
-### Chart A
+	### Chart A
 
-```{r}
+	```{r}
 
-```
+	```
 
-### Chart B
+	### Chart B
 
-```{r}
+	```{r}
 
-```
-Column
------------------------------------------------------------------------
+	```
+	Column
+	-----------------------------------------------------------------------
 
-### Chart C
+	### Chart C
 
-```{r}
+	```{r}
 
-```
-
-***
-
-## Pages
-
----
-title: "Bikeshare"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
----
-
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
-
-Overview
-====================================
-
-Column
------------------------------------------------------------------------
-
-### Chart A
-
-```{r}
-
-```
-
-Column
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
-```
-
-Details
-==============================================
-
-### Chart C
-
-```{r}
-
-```
-
-
+	```
 
 ***
 
 ## Pages
 
----
-title: "Bikeshare"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
----
+	---
+	title: "Bikeshare"
+	output: 
+	  flexdashboard::flex_dashboard:
+	    orientation: columns
+	---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
+	```{r setup, include=FALSE}
+	library(flexdashboard)
+	```
 
-Overview
-=====================================
+	Overview
+	====================================
 
-Column
------------------------------------------------------------------------
+	Column
+	-----------------------------------------------------------------------
 
-### Chart A
+	### Chart A
 
-```{r}
+	```{r}
 
-```
+	```
 
-Column
------------------------------------------------------------------------
+	Column
+	-----------------------------------------------------------------------
 
-### Chart B
+	### Chart B
 
-```{r}
+	```{r}
 
-```
+	```
 
-### Chart C
+	Details
+	==============================================
 
-```{r}
+	### Chart C
 
-```
+	```{r}
 
-Details{data-navmenu=More}
-=====================================
+	```
 
-### Chart AA
 
-```{r}
 
-```
+***
 
-Data{data-navmenu=More}
-=====================================
+## Pages
 
-### Chart BB
+	---
+	title: "Bikeshare"
+	output: 
+	  flexdashboard::flex_dashboard:
+	    orientation: columns
+	---
 
-```{r}
+	```{r setup, include=FALSE}
+	library(flexdashboard)
+	```
 
-```
+	Overview
+	=====================================
+
+	Column
+	-----------------------------------------------------------------------
+
+	### Chart A
+
+	```{r}
+
+	```
+
+	Column
+	-----------------------------------------------------------------------
+
+	### Chart B
+
+	```{r}
+
+	```
+
+	### Chart C
+
+	```{r}
+
+	```
+
+	Details{data-navmenu=More}
+	=====================================
+
+	### Chart AA
+
+	```{r}
+
+	```
+
+	Data{data-navmenu=More}
+	=====================================
+
+	### Chart BB
+
+	```{r}
+
+	```
 
 ***
 
