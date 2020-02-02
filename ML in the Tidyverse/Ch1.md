@@ -97,3 +97,55 @@ head(pop_mean)
 ***
 
 ## Mapping many models
+
+```r
+
+# Build a linear model for each country
+gap_models <- gap_nested %>%
+    mutate(model = map(data, ~lm(formula = life_expectancy~year, data = .x)))
+    
+# Extract the model for Algeria    
+algeria_model <- gap_models$model[[1]]
+
+# View the summary for the Algeria model
+summary(algeria_model)
+
+```
+
+
+output:
+
+```bash
+> # Build a linear model for each country
+> gap_models <- gap_nested %>%
+      mutate(model = map(data, ~lm(formula = life_expectancy~year, data = .x)))
+> 
+> # Extract the model for Algeria
+> algeria_model <- gap_models$model[[1]]
+> 
+> # View the summary for the Algeria model
+> summary(algeria_model)
+
+Call:
+lm(formula = life_expectancy ~ year, data = .x)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-4.044 -1.577 -0.543  1.700  3.843 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.197e+03  3.994e+01  -29.96   <2e-16 ***
+year         6.349e-01  2.011e-02   31.56   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.177 on 50 degrees of freedom
+Multiple R-squared:  0.9522,	Adjusted R-squared:  0.9513 
+F-statistic: 996.2 on 1 and 50 DF,  p-value: < 2.2e-16
+> 
+
+```
+
+***
+
