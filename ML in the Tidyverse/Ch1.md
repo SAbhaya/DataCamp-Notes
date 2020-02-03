@@ -149,3 +149,72 @@ F-statistic: 996.2 on 1 and 50 DF,  p-value: < 2.2e-16
 
 ***
 
+
+## The three ways to tidy your model
+
+Below are the descriptions of the three functions in the broom package. Which ones are correct?
+
+* `tidy()` returns the statistical findings of the model (such as coefficients)
+
+* `glance()` returns a concise one-row summary of the model
+
+* `augment()` adds prediction columns to the data being modeled
+
+
+## Extracting model statistics tidily
+
+```r
+
+library(broom)
+
+# Extract the coefficients of the algeria_model as a dataframe
+tidy(algeria_model)
+
+# Extract the statistics of the algeria_model as a dataframe
+glance(algeria_model)
+
+```
+
+Output:
+
+```bash
+
+> library(broom)
+> 
+> # Extract the coefficients of the algeria_model as a dataframe
+> tidy(algeria_model)
+# A tibble: 2 x 5
+  term         estimate std.error statistic  p.value
+  <chr>           <dbl>     <dbl>     <dbl>    <dbl>
+1 (Intercept) -1197.      39.9        -30.0 1.32e-33
+2 year            0.635    0.0201      31.6 1.11e-34
+> 
+> # Extract the statistics of the algeria_model as a dataframe
+> glance(algeria_model)
+# A tibble: 1 x 11
+  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+      <dbl>         <dbl> <dbl>     <dbl>    <dbl> <int>  <dbl> <dbl> <dbl>
+1     0.952         0.951  2.18      996. 1.11e-34     2  -113.  232.  238.
+# ... with 2 more variables: deviance <dbl>, df.residual <int>
+> 
+
+```
+***
+
+## Augmenting your data
+
+```r
+
+# Build the augmented dataframe
+algeria_fitted <- augment(algeria_model)
+
+# Compare the predicted values with the actual values of life expectancy
+algeria_fitted %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red")
+ 
+```
+![plot1](plot1.png)
+
+
