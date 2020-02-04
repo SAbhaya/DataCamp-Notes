@@ -20,4 +20,4 @@ model_coef %>%
   
 ```
 
-![hist]("plot.png")
+![hist](ch2plot1.png)
