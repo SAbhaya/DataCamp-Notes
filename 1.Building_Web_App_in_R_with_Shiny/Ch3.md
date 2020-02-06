@@ -487,6 +487,7 @@ shinyApp(ui = ui, server = server)
 
 ***
 
+```
 
 ## Delay with eventReactive()
 
