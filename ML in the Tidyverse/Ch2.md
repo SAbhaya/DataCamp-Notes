@@ -122,4 +122,23 @@ Output:
 
 ***
 
+## Augment the fitted values of each model
+
+
+```r
+
+best_augmented <- best_fit %>% 
+  # Build the augmented dataframe for each country model
+  mutate(augmented = map(model, ~augment(.x))) %>% 
+  # Expand the augmented dataframes
+  unnest(augmented)
+
+worst_augmented <- worst_fit %>% 
+  # Build the augmented dataframe for each country model
+  mutate(augmented = map(model, ~augment(.x))) %>% 
+  # Expand the augmented dataframes
+  unnest(augmented)
+ 
+ 
+```
 
