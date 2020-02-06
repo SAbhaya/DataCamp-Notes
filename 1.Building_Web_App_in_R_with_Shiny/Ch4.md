@@ -139,7 +139,7 @@ shinyApp(ui = ui, server = server)
 
 ***
 
-
+```
 ## Add image with img tag
 
 ```r
@@ -881,7 +881,7 @@ shinyApp(ui = ui, server = server)
 ## Add a new tab with the codebook
 
 
-'''r
+```r
 
 library(shiny)
 library(readr)
@@ -1038,13 +1038,13 @@ server <- function(input, output, session) {
 # Create Shiny app object
 shinyApp(ui = ui, server = server)
 
-'''
+```
 
 ***
 
 ## Conditional tab for displaying data table
 
-'''r
+```r
 
 library(shiny)
 library(readr)
@@ -1207,10 +1207,10 @@ server <- function(input, output, session) {
 shinyApp(ui = ui, server = server)
 
 ```
-
+***
 ## Customize the theme of your app
 
-'''r
+```r
 
 library(shiny)
 library(shinythemes)
