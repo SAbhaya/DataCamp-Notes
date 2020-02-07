@@ -142,3 +142,44 @@ worst_augmented <- worst_fit %>%
  
 ```
 
+
+***
+
+## Explore your best and worst fitting models
+
+
+```r
+# Compare the predicted values with the actual values of life expectancy 
+# for the top 4 best fitting models
+best_augmented %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red") +
+  facet_wrap(~country, scales = "free_y")
+
+```
+
+Output:
+
+![ch2plot3](ch2plot3.png)
+
+```r
+
+# Compare the predicted values with the actual values of life expectancy 
+# for the top 4 worst fitting models
+worst_augmented %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red") +
+  facet_wrap(~country, scales = "free_y")
+
+```
+
+Output:
+
+![ch2plot4.png](ch2plot4.png)
+
+
+
+
+
