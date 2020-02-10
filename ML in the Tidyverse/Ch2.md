@@ -184,4 +184,54 @@ Output:
 
 ## Build better models
 
+```r
+
+# Build a linear model for each country using all features
+gap_fullmodel <- gap_nested %>% 
+  mutate(model = map(data, ~lm(formula = life_expectancy ~ ., data = .x)))
+
+fullmodel_perf <- gap_fullmodel %>% 
+  # Extract the fit statistics of each model into dataframes
+  mutate(fit = map(model, ~glance(.x))) %>% 
+  # Simplify the fit dataframes for each model
+  unnest(fit)
+  
+# View the performance for the four countries with the worst fitting 
+# four simple models you looked at before
+fullmodel_perf %>% 
+  filter(country %in% worst_fit$country) %>% 
+  select(country, adj.r.squared)
+
+
+```
+
+Output:
+
+```bash
+
+> # Build a linear model for each country using all features
+> gap_fullmodel <- gap_nested %>% 
+    mutate(model = map(data, ~lm(formula = life_expectancy ~ ., data = .x)))
+> 
+> fullmodel_perf <- gap_fullmodel %>% 
+    # Extract the fit statistics of each model into dataframes
+    mutate(fit = map(model, ~glance(.x))) %>% 
+    # Simplify the fit dataframes for each model
+    unnest(fit)
+> 
+> # View the performance for the four countries with the worst fitting
+> # four simple models you looked at before
+> fullmodel_perf %>% 
+    filter(country %in% worst_fit$country) %>% 
+    select(country, adj.r.squared)
+# A tibble: 4 x 2
+  country  adj.r.squared
+  <fct>            <dbl>
+1 Botswana         0.844
+2 Lesotho          0.908
+3 Zambia           0.706
+4 Zimbabwe         0.978
+> 
+
+```
 
