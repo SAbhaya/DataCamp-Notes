@@ -49,4 +49,62 @@ Output:
 > 
 
 ```
+***
+
+## Cross-validation dataframes
+
+Split the training data into a series of 5 train-validate sets using the `vfold_cv()` function from the `rsample` package.
+
+
+```r
+
+set.seed(42)
+
+# Prepare the dataframe containing the cross validation partitions
+cv_split <- vfold_cv(training_data, v = 5)
+
+cv_data <- cv_split %>% 
+  mutate(
+    # Extract the train dataframe for each split
+    train = map(splits, ~training(.x)), 
+    # Extract the validate dataframe for each split
+    validate = map(splits, ~testing(.x))
+  )
+
+# Use head() to preview cv_data
+head(cv_data)
+
+```
+
+Output:
+
+```bash
+
+> set.seed(42)
+> 
+> # Prepare the dataframe containing the cross validation partitions
+> cv_split <- vfold_cv(training_data, v = 5)
+> 
+> cv_data <- cv_split %>% 
+    mutate(
+      # Extract the train dataframe for each split
+      train = map(splits, ~training(.x)), 
+      # Extract the validate dataframe for each split
+      validate = map(splits, ~testing(.x))
+    )
+> 
+> # Use head() to preview cv_data
+> head(cv_data)
+# A tibble: 5 x 4
+  splits   id    train                validate          
+* <list>   <chr> <list>               <list>            
+1 <rsplit> Fold1 <tibble [2,402 x 7]> <tibble [601 x 7]>
+2 <rsplit> Fold2 <tibble [2,402 x 7]> <tibble [601 x 7]>
+3 <rsplit> Fold3 <tibble [2,402 x 7]> <tibble [601 x 7]>
+4 <rsplit> Fold4 <tibble [2,403 x 7]> <tibble [600 x 7]>
+5 <rsplit> Fold5 <tibble [2,403 x 7]> <tibble [600 x 7]>
+> 
+
+```
+
 
