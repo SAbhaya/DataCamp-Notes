@@ -122,3 +122,56 @@ cv_models_lm <- cv_data %>%
 ## Preparing for evaluation
 
 
+* Measure Mean Absolute Error (MAE) between these two vectors
+
+
+```r
+
+cv_prep_lm <- cv_models_lm %>% 
+  mutate(
+    # Extract the recorded life expectancy for the records in the validate dataframes
+    validate_actual = map(validate, ~.x$life_expectancy),
+    # Predict life expectancy for each validate set using its corresponding model
+    validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y))
+  )
+ 
+```
+
+## Evaluate model performance
+
+```r
+
+library(Metrics)
+# Calculate the mean absolute error for each validate fold       
+cv_eval_lm <- cv_prep_lm %>% 
+  mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+
+# Print the validate_mae column
+cv_eval_lm$validate_mae
+
+# Calculate the mean of validate_mae column
+mean(cv_eval_lm$validate_mae)
+
+```
+
+Output:
+
+```bash
+
+> library(Metrics)
+> # Calculate the mean absolute error for each validate fold
+> cv_eval_lm <- cv_prep_lm %>% 
+    mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+> 
+> # Print the validate_mae column
+> cv_eval_lm$validate_mae
+       1        2        3        4        5 
+1.477976 1.491672 1.541386 1.403481 1.435348
+> 
+> # Calculate the mean of validate_mae column
+> mean(cv_eval_lm$validate_mae)
+[1] 1.469972
+> 
+
+```
+
