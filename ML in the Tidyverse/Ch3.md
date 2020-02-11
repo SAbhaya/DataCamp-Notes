@@ -106,7 +106,7 @@ Output:
 > 
 
 ```
-
+***
 
 ## Build cross-validated models
 
@@ -117,7 +117,7 @@ cv_models_lm <- cv_data %>%
   mutate(model = map(train, ~lm(formula = life_expectancy ~ ., data = .x)))
 
 ```
-
+***
 
 ## Preparing for evaluation
 
@@ -133,7 +133,7 @@ cv_prep_lm <- cv_models_lm %>%
   )
  
 ```
-
+***
 ## Evaluate model performance
 
 
@@ -175,4 +175,6 @@ Output:
 > 
 
 ```
+***
+
 
