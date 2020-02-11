@@ -108,3 +108,17 @@ Output:
 ```
 
 
+## Build cross-validated models
+
+```r
+
+# Build a model using the train data for each fold of the cross validation
+cv_models_lm <- cv_data %>% 
+  mutate(model = map(train, ~lm(formula = life_expectancy ~ ., data = .x)))
+
+```
+
+
+## Preparing for evaluation
+
+
