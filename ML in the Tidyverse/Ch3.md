@@ -177,4 +177,28 @@ Output:
 ```
 ***
 
+## Building and tuning a random forest model
+
+## Build a random forest model
+
+```r
+
+library(ranger)
+
+# Build a random forest model for each fold
+cv_models_rf <- cv_data %>% 
+  mutate(model = map(train, ~ranger(formula = life_expectancy ~ ., data = .x, num.trees = 100, seed = 42)))
+
+# Generate predictions using the random forest model
+cv_prep_rf <- cv_models_rf %>% 
+  mutate(validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y)$predictions))
+
+```
+***
+
+## Evaluate a random forest model
+
+
+
+
 
