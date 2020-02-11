@@ -122,9 +122,6 @@ cv_models_lm <- cv_data %>%
 ## Preparing for evaluation
 
 
-* Measure Mean Absolute Error (MAE) between these two vectors
-
-
 ```r
 
 cv_prep_lm <- cv_models_lm %>% 
@@ -138,6 +135,10 @@ cv_prep_lm <- cv_models_lm %>%
 ```
 
 ## Evaluate model performance
+
+
+
+* Measure Mean Absolute Error (MAE) between these two vectors
 
 ```r
 
