@@ -236,6 +236,71 @@ Output:
 
 
 ```
+***
+
+## Fine tune your model
+
+
+```r
+
+# Prepare for tuning your cross validation folds by varying mtry
+cv_tune <- cv_data %>% 
+  crossing(mtry = 2:5) 
+
+# Build a model for each fold & mtry combination
+cv_model_tunerf <- cv_tune %>% 
+  mutate(model = map2(.x = train, .y = mtry, ~ranger(formula = life_expectancy~.,data = .x, mtry = .y,num.trees = 100, seed = 42)))
+
+
+```
+***
+
+## The best performing parameter
+
+```r
+
+# Generate validate predictions for each model
+cv_prep_tunerf <- cv_model_tunerf %>% 
+  mutate(validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y)$predictions))
+
+# Calculate validate MAE for each fold and mtry combination
+cv_eval_tunerf <- cv_prep_tunerf %>% 
+  mutate(validate_mae = map2_dbl(.x = validate_actual, .y = validate_predicted, ~mae(actual = .x, predicted = .y)))
+
+# Calculate the mean validate_mae for each mtry used  
+cv_eval_tunerf %>% 
+  group_by(mtry) %>% 
+  summarise(mean_mae = mean(validate_mae))
+
+```
+
+Output:
+
+```bash
+
+> # Generate validate predictions for each model
+> cv_prep_tunerf <- cv_model_tunerf %>% 
+    mutate(validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y)$predictions))
+> 
+> # Calculate validate MAE for each fold and mtry combination
+> cv_eval_tunerf <- cv_prep_tunerf %>% 
+    mutate(validate_mae = map2_dbl(.x = validate_actual, .y = validate_predicted, ~mae(actual = .x, predicted = .y)))
+> 
+> # Calculate the mean validate_mae for each mtry used
+> cv_eval_tunerf %>% 
+    group_by(mtry) %>% 
+    summarise(mean_mae = mean(validate_mae))
+# A tibble: 4 x 2
+   mtry mean_mae
+  <int>    <dbl>
+1     2    0.796
+2     3    0.791
+3     4    0.789
+4     5    0.791
+> 
+
+```
+
 
 
 
