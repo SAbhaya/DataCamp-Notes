@@ -198,6 +198,44 @@ cv_prep_rf <- cv_models_rf %>%
 
 ## Evaluate a random forest model
 
+```r
+
+library(ranger)
+
+# Calculate validate MAE for each fold
+cv_eval_rf <- cv_prep_rf %>% 
+  mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+
+# Print the validate_mae column
+cv_eval_rf$validate_mae
+
+# Calculate the mean of validate_mae column
+mean(cv_eval_rf$validate_mae)
+
+```
+
+Output:
+
+```bash
+
+> library(ranger)
+> 
+> # Calculate validate MAE for each fold
+> cv_eval_rf <- cv_prep_rf %>% 
+    mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+> 
+> # Print the validate_mae column
+> cv_eval_rf$validate_mae
+        1         2         3         4         5 
+0.8336129 0.8162233 0.8096234 0.7584762 0.7605624
+> 
+> # Calculate the mean of validate_mae column
+> mean(cv_eval_rf$validate_mae)
+[1] 0.7956996
+> 
+
+
+```
 
 
 
