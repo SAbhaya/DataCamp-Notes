@@ -301,6 +301,47 @@ Output:
 
 ```
 
+***
+
+## Build & evaluate the best model
+
+```r
+# Build the model using all training data and the best performing parameter
+best_model <- ranger(formula = life_expectancy ~ ., data = training_data,
+                     mtry = 4, num.trees = 100, seed = 42)
+
+# Prepare the test_actual vector
+test_actual <- testing_data$life_expectancy
+
+# Predict life_expectancy for the testing_data
+test_predicted <- predict(best_model, testing_data)$predictions
+
+# Calculate the test MAE
+mae(test_actual, test_predicted)
+
+```
+
+Output:
+
+```bash
+
+> # Build the model using all training data and the best performing parameter
+> best_model <- ranger(formula = life_expectancy ~ ., data = training_data,
+                       mtry = 4, num.trees = 100, seed = 42)
+> 
+> # Prepare the test_actual vector
+> test_actual <- testing_data$life_expectancy
+> 
+> # Predict life_expectancy for the testing_data
+> test_predicted <- predict(best_model, testing_data)$predictions
+> 
+> # Calculate the test MAE
+> mae(test_actual, test_predicted)
+[1] 0.6785683
+> 
+
+
+```
 
 
 
