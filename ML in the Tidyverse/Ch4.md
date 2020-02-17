@@ -178,3 +178,61 @@ Output:
 
 
 
+
+
+
+
+
+
+```r
+
+cv_prep_rf <- cv_models_rf %>% 
+  mutate(
+    # Prepare binary vector of actual Attrition values in validate
+    validate_actual = map(validate, ~.x$Attrition == "Yes"),
+    # Prepare binary vector of predicted Attrition values for validate
+    validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y, type = "response")$predictions == "Yes")
+  )
+
+# Calculate the validate recall for each cross validation fold
+cv_perf_recall <- cv_prep_rf %>% 
+  mutate(recall = map2_dbl(.x = validate_actual, .y = validate_predicted, ~recall(actual = .x, predicted = .y)))
+
+# Calculate the mean recall for each mtry used  
+cv_perf_recall %>% 
+  group_by(mtry) %>% 
+  summarise(mean_recall = mean(recall))
+  
+```
+
+Ouptput:
+
+```bash
+> cv_prep_rf <- cv_models_rf %>% 
+    mutate(
+      # Prepare binary vector of actual Attrition values in validate
+      validate_actual = map(validate, ~.x$Attrition == "Yes"),
+      # Prepare binary vector of predicted Attrition values for validate
+      validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y, type = "response")$predictions == "Yes")
+    )
+> 
+> # Calculate the validate recall for each cross validation fold
+> cv_perf_recall <- cv_prep_rf %>% 
+    mutate(recall = map2_dbl(.x = validate_actual, .y = validate_predicted, ~recall(actual = .x, predicted = .y)))
+> 
+> # Calculate the mean recall for each mtry used
+> cv_perf_recall %>% 
+    group_by(mtry) %>% 
+    summarise(mean_recall = mean(recall))
+# A tibble: 4 x 2
+   mtry mean_recall
+  <dbl>       <dbl>
+1     2       0.107
+2     4       0.161
+3     8       0.156
+4    16       0.195
+> 
+
+
+```
+
