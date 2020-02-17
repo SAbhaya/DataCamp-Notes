@@ -174,15 +174,28 @@ Output:
 
 
 ```
+***
+
+## Tune random forest models
+
+```r
+
+library(ranger)
+
+# Prepare for tuning your cross validation folds by varying mtry
+cv_tune <- cv_data %>%
+  crossing(mtry = c(2,4,8,16)) 
+
+# Build a cross validation model for each fold & mtry combination
+cv_models_rf <- cv_tune %>% 
+  mutate(model = map2(train, mtry, ~ranger(formula = Attrition~., 
+                                           data = .x, mtry = .y,
+                                           num.trees = 100, seed = 42)))
+```
+***
 
 
-
-
-
-
-
-
-
+## Random forest performance
 
 ```r
 
@@ -235,4 +248,6 @@ Ouptput:
 
 
 ```
+***
+
 
