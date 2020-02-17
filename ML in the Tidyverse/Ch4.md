@@ -286,6 +286,52 @@ Output:
 
 
 ```
+***
 
+## Measure final model performance
+
+
+```r
+
+# Compare the actual & predicted performance visually using a table
+table(test_actual,test_predicted)
+
+# Calculate the test accuracy
+accuracy(test_actual,test_predicted)
+
+# Calculate the test precision
+precision(test_actual,test_predicted)
+
+# Calculate the test recall
+recall(test_actual,test_predicted)
+
+```
+
+Ouput:
+
+```bash
+> # Compare the actual & predicted performance visually using a table
+> table(test_actual,test_predicted)
+           test_predicted
+test_actual FALSE TRUE
+      FALSE   288   15
+      TRUE     41   23
+> 
+> # Calculate the test accuracy
+> accuracy(test_actual,test_predicted)
+[1] 0.8474114
+> 
+> # Calculate the test precision
+> precision(test_actual,test_predicted)
+[1] 0.6052632
+> 
+> # Calculate the test recall
+> recall(test_actual,test_predicted)
+[1] 0.359375
+> 
+
+```
+
+***
 
 
