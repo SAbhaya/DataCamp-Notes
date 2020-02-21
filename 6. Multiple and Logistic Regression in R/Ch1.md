@@ -94,7 +94,33 @@ data_space +
 
 ![ch1plot1](ch1plot1.png)
 
+***
+
+## Syntax from math
+
+```r
+
+# build model
+lm(formula = bwt ~ age + parity, data = babies)
+
+```
 
 
+Output:
+
+```bash
+
+> # build model
+> lm(formula = bwt ~ age + parity, data = babies)
+
+Call:
+lm(formula = bwt ~ age + parity, data = babies)
+
+Coefficients:
+(Intercept)          age       parity  
+  118.27782      0.06315     -1.65248
+> 
+
+```
 
 
