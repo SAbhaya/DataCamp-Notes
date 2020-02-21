@@ -122,5 +122,35 @@ Coefficients:
 > 
 
 ```
+***
+
+## Syntax from plot
+
+```r
+
+# build model
+lm(formula = bwt ~ gestation + smoke, data = babies)
+
+```
+
+Output:
+
+```bash
+
+> # build model
+> lm(formula = bwt ~ gestation + smoke, data = babies)
+
+Call:
+lm(formula = bwt ~ gestation + smoke, data = babies)
+
+Coefficients:
+(Intercept)    gestation        smoke  
+    -0.9317       0.4429      -8.0883
+> 
+
+```
+
+***
+
 
 
