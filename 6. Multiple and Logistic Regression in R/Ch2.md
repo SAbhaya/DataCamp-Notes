@@ -92,3 +92,23 @@ F-statistic: 115.6 on 3 and 137 DF,  p-value: < 2.2e-16
 > 
 
 ```
+***
+
+## Prediction
+
+
+```r
+
+# return a vector
+predict(mod)
+
+# return a data frame
+data.frame(augment(mod))
+
+
+```
+
+***
+
+
+
