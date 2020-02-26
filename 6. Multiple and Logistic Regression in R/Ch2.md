@@ -142,5 +142,23 @@ Coefficients:
 
 ```
 
+***
+
+## Visualizing interaction models
+
+
+```r
+
+# interaction plot
+ggplot(data = mario_kart, aes(x= duration, y= totalPr , color = cond)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = 0)
+  
+ 
+```
+
+Output:
+
+![ch2plot1](ch2plot1.png)
 
 
