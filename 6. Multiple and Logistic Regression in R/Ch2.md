@@ -111,4 +111,36 @@ data.frame(augment(mod))
 ***
 
 
+## Fitting a model with interaction
+
+> `lm(y ~ x + z + x:z, data = mydata)`
+
+interaction between `x` and `z` will be a third term in the model.
+
+```r
+
+# include interaction
+lm(formula = totalPr ~ cond + duration + cond:duration, data = mario_kart)
+
+```
+
+Output:
+
+```bash
+
+> # include interaction
+> lm(formula = totalPr ~ cond + duration + cond:duration, data = mario_kart)
+
+Call:
+lm(formula = totalPr ~ cond + duration + cond:duration, data = mario_kart)
+
+Coefficients:
+      (Intercept)           condused           duration  condused:duration  
+           58.268            -17.122             -1.966              2.325
+> 
+
+
+```
+
+
 
