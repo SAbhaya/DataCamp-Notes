@@ -162,3 +162,30 @@ Output:
 ![ch2plot1](ch2plot1.png)
 
 
+***
+
+## Simpson's paradox
+
+Simpson's paradox (or Simpson's reversal, Yule–Simpson effect, amalgamation paradox, or reversal paradox)[1] is a phenomenon in probability and statistics, in which a trend appears in several different groups of data but disappears or reverses when these groups are combined. (Wikipedia)
+
+## Simpson's paradox in action
+
+```r
+
+slr <- ggplot(mario_kart, aes(y = totalPr, x = duration)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+
+# model with one slope
+lm(formula = totalPr ~ duration, data = mario_kart)
+
+# plot with two slopes
+slr + aes(color = cond)
+
+```
+
+Output:
+
+![ch2plot2](ch2plot2.png)
+![ch2plot3](ch2plot3.png)
+
