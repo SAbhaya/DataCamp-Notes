@@ -51,6 +51,6 @@ data_space +
 
 Output:
 
-![ch3plot1])(ch3plot1.png)
+![ch3plot1](ch3plot1.png)
 
 
