@@ -36,3 +36,21 @@ create a grid of the possible pairs of values of the explanatory variables.
 Use augment() with the newdata argument to find the y^'s corresponding to the values in grid.
 Add these to the data_space plot by using the fill aesthetic and geom_tile().
 
+
+```r
+
+# add predictions to grid
+price_hats <- augment(mod, newdata = grid)
+
+# tile the plane
+data_space + 
+  geom_tile(data = price_hats, aes(fill = .fitted), alpha = 0.5)
+
+
+```
+
+Output:
+
+![ch3plot1])(ch3plot1.png)
+
+
