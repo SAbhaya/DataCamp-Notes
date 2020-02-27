@@ -33,3 +33,32 @@ Or:
 ```bash
 cat two_cities.txt | egrep 'Sydney Carton|Charles Darnay' | wc -l
 ```
+
+## A simple Bash script
+
+```bash
+#!/usr.bash
+
+# Concatenate the file
+cat server_log_with_todays_date.txt
+
+
+# Now save and run!
+
+```
+
+Output:
+
+```bash
+
+repl:~/workspace$ cd /home/repl/workspace
+repl:~/workspace$ bash script.sh
+2019-01-01 | server request | windows | ping-2.000
+2019-02-01 | server request | mac | ping-2.000
+2019-02-01 | server request | windows | ping-12.000
+2019-02-01 | server request | linux | ping-6.000repl:~/workspacrepl:~/workspace$ 
+
+```
+
+***
+
