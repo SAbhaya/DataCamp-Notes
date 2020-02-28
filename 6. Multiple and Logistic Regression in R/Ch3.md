@@ -77,3 +77,27 @@ Output:
 
 ![ch3plot2](ch3plot2.png)
 
+***
+
+## Coefficient magnitude
+
+
+```
+Call:
+lm(formula = totalPr ~ duration + startPr, data = mario_kart)
+
+Coefficients:
+(Intercept)     duration      startPr  
+     51.030       -1.508        0.233  
+
+```
+
+> The coefficients have different units (dollars per day and dollars per dollar, respectively) and so they are not directly comparable.
+
+***
+
+## Practicing interpretation
+
+
+
+
