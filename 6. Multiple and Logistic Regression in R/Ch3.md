@@ -98,6 +98,8 @@ Coefficients:
 
 ## Practicing interpretation
 
+## Visualizing parallel planes
+
 
 
 
