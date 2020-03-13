@@ -44,7 +44,7 @@ data_space +
 
 Output:
 
-![ch4plot1](ch4plot2.png)
+![ch4plot2](ch4plot2.png)
 
 ***
 
@@ -83,3 +83,23 @@ Residual Deviance: 56.84 	AIC: 60.84
 
 ```
 
+***
+
+## Using geom_smooth()
+
+```r
+
+# scatterplot with jitter
+data_space <- ggplot(MedGPA, aes(x= GPA, y=Acceptance)) + 
+  geom_jitter(width = 0, height = 0.05, alpha = .5)
+
+# add logistic curve
+data_space +
+  geom_smooth(method = "glm", se= FALSE, method.args = list(family = "binomial"))
+  
+
+```
+
+Output:
+
+![ch4plot3](ch4plot3.png)
