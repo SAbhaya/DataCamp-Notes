@@ -103,3 +103,29 @@ data_space +
 Output:
 
 ![ch4plot3](ch4plot3.png)
+
+
+***
+
+## Using bins
+
+
+Put the observations into bins based on their GPA value. Within each bin, we can compute the proportion of accepted students, and we can visualize our model as a smooth logistic curve through those binned values.
+
+
+```r
+
+# binned points and line
+data_space <- ggplot(MedGPA_binned, aes(x = mean_GPA, y = acceptance_rate )) + geom_point()+ geom_line()
+
+# augmented model
+MedGPA_plus <- augment(mod, type.predict = "response")
+
+# logistic model on probability scale
+data_space + geom_line(data = MedGPA_plus, aes(x = GPA, y = .fitted), color = "red")
+
+```
+
+Output:
+![ch4plot4](ch4plot4.png)
+
