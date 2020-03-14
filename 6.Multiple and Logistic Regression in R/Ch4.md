@@ -129,3 +129,42 @@ data_space + geom_line(data = MedGPA_plus, aes(x = GPA, y = .fitted), color = "r
 Output:
 ![ch4plot4](ch4plot4.png)
 
+***
+
+## Odds scale
+
+
+
+If the probability of getting accepted is `y`, then the odds are `y/(1−y)`. 
+Here we are plotting `y/(1−y)` as a function of `x`, where that function is
+
+![](https://latex.codecogs.com/gif.latex?odds%28%5Chat%7By%7D%29%20%3D%20%5Cfrac%7B%5Chat%7By%7D%7D%7B1-%5Chat%7By%7D%7D%20%3D%20%5Cexp%7B%28%20%5Chat%7B%5Cbeta%7D_0%20&plus;%20%5Chat%7B%5Cbeta%7D_1%20%5Ccdot%20x%20%29%20%7D)
+
+
+```r
+
+# compute odds for bins
+MedGPA_binned <- MedGPA_binned %>%
+                    mutate(odds = acceptance_rate/(1- acceptance_rate))
+                  
+
+# plot binned odds
+data_space <- ggplot(MedGPA_binned, aes(x = mean_GPA, y=odds)) + geom_point() + geom_line()
+
+# compute odds for observations
+MedGPA_plus <- MedGPA_plus %>%
+                mutate(odds_hat = .fitted/(1- .fitted))
+
+# logistic model on odds scale
+data_space +
+  geom_line(data = MedGPA_plus, aes(x = GPA, y= odds_hat), color = "red")
+  
+```
+
+Output:
+
+![ch4plot5](ch4plot5.png)
+
+***
+
+
