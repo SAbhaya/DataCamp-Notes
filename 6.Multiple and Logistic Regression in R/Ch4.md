@@ -225,5 +225,45 @@ Output:
 ```
 
 
+***
 
+## Making binary predictions
+
+```r
+
+# data frame with binary predictions
+tidy_mod <- augment(mod, type.predict = "response") %>%
+        mutate(Acceptance_hat = round(.fitted))
+
+  
+# confusion matrix
+tidy_mod %>%
+  select(Acceptance, Acceptance_hat) %>% 
+  table()
+  
+```
+
+Output:
+
+```bash
+> # data frame with binary predictions
+> tidy_mod <- augment(mod, type.predict = "response") %>%
+          mutate(Acceptance_hat = round(.fitted))
+> 
+> 
+> # confusion matrix
+> tidy_mod %>%
+    select(Acceptance, Acceptance_hat) %>% 
+    table()
+          Acceptance_hat
+Acceptance  0  1
+         0 16  9
+         1  6 24
+> 
+
+```
+
+
+
+```
 
