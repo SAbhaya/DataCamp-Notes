@@ -168,3 +168,33 @@ Output:
 ***
 
 
+## Log-odds scale
+
+```r
+
+# compute log odds for bins
+MedGPA_binned <- MedGPA_binned %>%
+  mutate(log_odds = log(acceptance_rate/(1-acceptance_rate)))
+
+# plot binned log odds
+data_space <- ggplot(MedGPA_binned, aes(x= mean_GPA, y= log_odds)) + geom_point() + geom_line()
+
+# compute log odds for observations
+MedGPA_plus <- MedGPA_plus %>%
+                mutate(log_odds_hat = log(.fitted/(1- .fitted)))
+
+# logistic model on log odds scale
+data_space +
+  geom_line(data = MedGPA_plus, aes(x = GPA, y= log_odds_hat), color = "red")
+  
+```
+
+Output:
+
+![ch4plot6](ch4plot6.png)
+
+***
+
+
+
+
