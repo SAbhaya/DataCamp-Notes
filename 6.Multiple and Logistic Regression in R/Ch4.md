@@ -195,6 +195,35 @@ Output:
 
 ***
 
+## Making probabilistic predictions
+
+
+```r
+
+# create new data frame
+new_data <- data.frame(GPA = 3.51)
+
+# make predictions
+augment(mod, newdata =  new_data, type.predict = "response")
+
+
+```
+
+Output:
+
+```bash
+
+> # create new data frame
+> new_data <- data.frame(GPA = 3.51)
+> 
+> # make predictions
+> augment(mod, newdata =  new_data, type.predict = "response")
+   GPA   .fitted    .se.fit
+1 3.51 0.4844099 0.08343193
+> 
+
+```
+
 
 
 
