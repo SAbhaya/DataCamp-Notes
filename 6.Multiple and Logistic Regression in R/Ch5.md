@@ -93,5 +93,30 @@ Output:
 
 ## Higher dimensions
 
+## Parallel planes with location
+
+```r
+
+# Price by Food and Service and East
+lm(Price ~ Food + Service + East, data = nyc)
+
+```
+
+Output:
+
+```bash
+
+> # Price by Food and Service and East
+> lm(Price ~ Food + Service + East, data = nyc)
+
+Call:
+lm(formula = Price ~ Food + Service + East, data = nyc)
+
+Coefficients:
+(Intercept)         Food      Service         East  
+   -20.8155       1.4863       1.6647       0.9649
+> 
+
+```
 
 
