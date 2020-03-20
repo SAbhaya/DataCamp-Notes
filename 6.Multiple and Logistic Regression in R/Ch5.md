@@ -51,4 +51,47 @@ Coefficients:
 ```
 ![ch5plot2](ch5plot2.png)
 
+## Parallel lines with location
+
+```bash
+
+> lm(Price ~ Food + East, data = nyc)
+
+Call:
+lm(formula = Price ~ Food + East, data = nyc)
+
+Coefficients:
+(Intercept)         Food         East  
+    -17.430        2.875        1.459
+> 
+
+```
+***
+
+## A plane in 3D
+
+```r
+
+# fit model
+lm(Price ~ Food + Service, data = nyc)
+
+# draw 3D scatterplot
+p <- plot_ly(data = nyc, z = ~Price, x = ~Food, y = ~Service, opacity = 0.6) %>%
+  add_markers() 
+
+# draw a plane
+p %>%
+  add_surface(x = ~x, y = ~y, z = ~plane, showscale = FALSE) 
+  
+```
+
+Output:
+
+![ch5plot3](ch5plot3.png)
+
+***
+
+## Higher dimensions
+
+
 
