@@ -36,3 +36,8 @@ Output:
 [1] 1129.843
 
 ```
+
+***
+
+## Randomly order the data frame
+
