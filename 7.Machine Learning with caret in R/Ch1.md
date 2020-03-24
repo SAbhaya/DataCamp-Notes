@@ -118,3 +118,31 @@ Output:
 
 Calculate test set RMSE by hand
 
+```r
+
+# Compute errors: error
+error <- p - test$price
+
+# Calculate RMSE
+sqrt(mean(error^2))
+
+```
+
+Output:
+
+```bash
+
+> # Compute errors: error
+> error <- p - test$price
+> 
+> # Calculate RMSE
+> sqrt(mean(error^2))
+[1] 1136.596
+> 
+
+```
+
+***
+
+## 10-fold cross-validation
+
