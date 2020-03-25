@@ -244,5 +244,74 @@ Tuning parameter 'intercept' was held constant at a value of TRUE
 
 ```
 
+***
+
+## 5-fold cross-validation
+
+```r
+
+# Fit lm model using 5-fold CV: model
+model <- train(
+  medv ~ ., 
+  Boston,
+  method = "lm",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5,
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+model
+
+```
+
+Output:
+
+```bash
+> # Fit lm model using 5-fold CV: model
+> model <- train(
+    medv ~ ., 
+    Boston,
+    method = "lm",
+    trControl = trainControl(
+      method = "cv", 
+      number = 5,
+      verboseIter = TRUE
+    )
+  )
++ Fold1: intercept=TRUE 
+- Fold1: intercept=TRUE 
++ Fold2: intercept=TRUE 
+- Fold2: intercept=TRUE 
++ Fold3: intercept=TRUE 
+- Fold3: intercept=TRUE 
++ Fold4: intercept=TRUE 
+- Fold4: intercept=TRUE 
++ Fold5: intercept=TRUE 
+- Fold5: intercept=TRUE 
+Aggregating results
+Fitting final model on full training set
+> 
+> # Print model to console
+> model
+Linear Regression 
+
+506 samples
+ 13 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 404, 404, 406, 406, 404 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  4.865282  0.7230966  3.389431
+
+Tuning parameter 'intercept' was held constant at a value of TRUE
+> 
+
+```
 
 
