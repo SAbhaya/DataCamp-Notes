@@ -313,5 +313,132 @@ Tuning parameter 'intercept' was held constant at a value of TRUE
 > 
 
 ```
+***
+
+## 5 x 5-fold cross-validation
+
+Repeated cross-validation gives you a better estimate of the test-set error
+
+```r
+
+# Fit lm model using 5 x 5-fold CV: model
+model <- train(
+  medv ~ ., 
+  Boston,
+  method = "lm",
+  trControl = trainControl(
+    method = "repeatedcv", 
+    number = 5,
+    repeats = 5, 
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+model
+
+```
+
+Output:
+
+```bash
+
+> # Fit lm model using 5 x 5-fold CV: model
+> model <- train(
+    medv ~ ., 
+    Boston,
+    method = "lm",
+    trControl = trainControl(
+      method = "repeatedcv", 
+      number = 5,
+      repeats = 5, 
+      verboseIter = TRUE
+    )
+  )
++ Fold1.Rep1: intercept=TRUE 
+- Fold1.Rep1: intercept=TRUE 
++ Fold2.Rep1: intercept=TRUE 
+- Fold2.Rep1: intercept=TRUE 
++ Fold3.Rep1: intercept=TRUE 
+- Fold3.Rep1: intercept=TRUE 
++ Fold4.Rep1: intercept=TRUE 
+- Fold4.Rep1: intercept=TRUE 
++ Fold5.Rep1: intercept=TRUE 
+- Fold5.Rep1: intercept=TRUE 
++ Fold1.Rep2: intercept=TRUE 
+- Fold1.Rep2: intercept=TRUE 
++ Fold2.Rep2: intercept=TRUE 
+- Fold2.Rep2: intercept=TRUE 
++ Fold3.Rep2: intercept=TRUE 
+- Fold3.Rep2: intercept=TRUE 
++ Fold4.Rep2: intercept=TRUE 
+- Fold4.Rep2: intercept=TRUE 
++ Fold5.Rep2: intercept=TRUE 
+- Fold5.Rep2: intercept=TRUE 
++ Fold1.Rep3: intercept=TRUE 
+- Fold1.Rep3: intercept=TRUE 
++ Fold2.Rep3: intercept=TRUE 
+- Fold2.Rep3: intercept=TRUE 
++ Fold3.Rep3: intercept=TRUE 
+- Fold3.Rep3: intercept=TRUE 
++ Fold4.Rep3: intercept=TRUE 
+- Fold4.Rep3: intercept=TRUE 
++ Fold5.Rep3: intercept=TRUE 
+- Fold5.Rep3: intercept=TRUE 
++ Fold1.Rep4: intercept=TRUE 
+- Fold1.Rep4: intercept=TRUE 
++ Fold2.Rep4: intercept=TRUE 
+- Fold2.Rep4: intercept=TRUE 
++ Fold3.Rep4: intercept=TRUE 
+- Fold3.Rep4: intercept=TRUE 
++ Fold4.Rep4: intercept=TRUE 
+- Fold4.Rep4: intercept=TRUE 
++ Fold5.Rep4: intercept=TRUE 
+- Fold5.Rep4: intercept=TRUE 
++ Fold1.Rep5: intercept=TRUE 
+- Fold1.Rep5: intercept=TRUE 
++ Fold2.Rep5: intercept=TRUE 
+- Fold2.Rep5: intercept=TRUE 
++ Fold3.Rep5: intercept=TRUE 
+- Fold3.Rep5: intercept=TRUE 
++ Fold4.Rep5: intercept=TRUE 
+- Fold4.Rep5: intercept=TRUE 
++ Fold5.Rep5: intercept=TRUE 
+- Fold5.Rep5: intercept=TRUE 
+Aggregating results
+Fitting final model on full training set
+> 
+> # Print model to console
+> model
+Linear Regression 
+
+506 samples
+ 13 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold, repeated 5 times) 
+Summary of sample sizes: 404, 405, 405, 404, 406, 406, ... 
+Resampling results:
+
+  RMSE     Rsquared  MAE     
+  4.83666  0.726918  3.391754
+
+Tuning parameter 'intercept' was held constant at a value of TRUE
+> 
+
+
+```
+***
+
+## Making predictions on new data
+
+```r
+# Predict on full Boston dataset
+predict(model, Boston)
+
+```
+***
+
+
 
 
