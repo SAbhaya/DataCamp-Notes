@@ -146,3 +146,103 @@ Output:
 
 ## 10-fold cross-validation
 
+the caret package makes this very easy to do cross validation
+
+> model <- train(y ~ ., my_data)
+
+which type of cross-validation 
+the number of cross-validation folds with the trainControl() function -> pass to the trControl argument in train():
+
+```r
+
+model <- train(
+  y ~ ., 
+  my_data,
+  method = "lm",
+  trControl = trainControl(
+    method = "cv", 
+    number = 10,
+    verboseIter = TRUE
+  )
+)
+
+```
+
+Fit the model using 10-fold CV
+
+```r
+# Fit lm model using 10-fold CV: model
+model <- train(
+  price ~ ., 
+  diamonds,
+  method = "lm",
+  trControl = trainControl(
+    method = "cv", 
+    number = 10,
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+model
+```
+
+Output:
+
+```bash
+> # Fit lm model using 10-fold CV: model
+> model <- train(
+    price ~ ., 
+    diamonds,
+    method = "lm",
+    trControl = trainControl(
+      method = "cv", 
+      number = 10,
+      verboseIter = TRUE
+    )
+  )
++ Fold01: intercept=TRUE 
+- Fold01: intercept=TRUE 
++ Fold02: intercept=TRUE 
+- Fold02: intercept=TRUE 
++ Fold03: intercept=TRUE 
+- Fold03: intercept=TRUE 
++ Fold04: intercept=TRUE 
+- Fold04: intercept=TRUE 
++ Fold05: intercept=TRUE 
+- Fold05: intercept=TRUE 
++ Fold06: intercept=TRUE 
+- Fold06: intercept=TRUE 
++ Fold07: intercept=TRUE 
+- Fold07: intercept=TRUE 
++ Fold08: intercept=TRUE 
+- Fold08: intercept=TRUE 
++ Fold09: intercept=TRUE 
+- Fold09: intercept=TRUE 
++ Fold10: intercept=TRUE 
+- Fold10: intercept=TRUE 
+Aggregating results
+Fitting final model on full training set
+> 
+> # Print model to console
+> model
+Linear Regression 
+
+25000 samples
+    9 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 22501, 22500, 22500, 22499, 22499, 22500, ... 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  1139.172  0.9197933  741.5344
+
+Tuning parameter 'intercept' was held constant at a value of TRUE
+> 
+
+```
+
+
+
