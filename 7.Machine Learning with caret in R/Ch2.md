@@ -232,6 +232,21 @@ It evaluates all possible thresholds for splitting predicted probabilities into 
 
 ## Plot an ROC curve
 
+```r
+
+# Predict on test: p
+p <- predict(model, test, type = "response")
+
+# Make ROC curve
+colAUC(p, test$Class, plotROC = TRUE)
+
+```
+
+Output:
+
+![ch2plot2](ch2plot1.png)
+
+
 
 
 
