@@ -247,6 +247,132 @@ Output:
 ![ch2plot2](ch2plot1.png)
 
 
+## Model, ROC, and AUC
+
+AUC of a perfect model = 1
+
+***
+
+## Customizing trainControl
+
+`trainControl()` function in caret to use AUC (instead of acccuracy)
+The `twoClassSummary()` convenience function
+
+twoClassSummary()
+use:
+classProbs = TRUE
+
+```r
+
+# Create trainControl object: myControl
+myControl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = TRUE
+)
+
+```
+***
+
+## Using custom trainControl
+
+```
+train(<standard arguments here>, trControl = myControl)
+```
+
+***
+
+```r
+
+# Train glm with custom trainControl: model
+model = train(Class ~ ., data = Sonar, method = "glm", trControl = myControl)
+
+
+# Print model to console
+model
+
+```
+
+Output:
+
+```bash
+
+> ls()
+[1] "Sonar"     "myControl"
+> # Train glm with custom trainControl: model
+> model = train(Class ~ ., data = Sonar, method = "glm", trControl = myControl)
+Warning message: The metric "Accuracy" was not in the result set. ROC will be used instead.
++ Fold01: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold01: parameter=none 
++ Fold02: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold02: parameter=none 
++ Fold03: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold03: parameter=none 
++ Fold04: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold04: parameter=none 
++ Fold05: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold05: parameter=none 
++ Fold06: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold06: parameter=none 
++ Fold07: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold07: parameter=none 
++ Fold08: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold08: parameter=none 
++ Fold09: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold09: parameter=none 
++ Fold10: parameter=none
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+- Fold10: parameter=none 
+Aggregating results
+Fitting final model on full training set
+Warning message: glm.fit: algorithm did not converge
+Warning message: glm.fit: fitted probabilities numerically 0 or 1 occurred
+> 
+> 
+> # Print model to console
+> model
+Generalized Linear Model 
+
+208 samples
+ 60 predictor
+  2 classes: 'M', 'R' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 186, 188, 187, 188, 187, 188, ... 
+Resampling results:
+
+  ROC        Sens       Spec     
+  0.7193561  0.7651515  0.6688889
+> 
+
+```
+***
+
+
+
+
 
 
 
