@@ -227,3 +227,140 @@ The final values used for the model were mtry = 7, splitrule = extratrees
 
 ![ch3plot1](ch3plot1.png)
 
+***
+
+## Fit a random forest with custom tuning
+
+### 1
+```r
+# Define the tuning grid: tuneGrid
+tuneGrid <- data.frame(
+  .mtry = c(2,3,7),
+  .splitrule = "variance",
+  .min.node.size = 5
+)
+
+```
+### 2
+
+```r
+
+# From previous step
+tuneGrid <- data.frame(
+  .mtry = c(2, 3, 7),
+  .splitrule = "variance",
+  .min.node.size = 5
+)
+
+# Fit random forest: model
+model <- train(
+  quality ~ .,
+  tuneGrid = tuneGrid,
+  data = wine, 
+  method = "ranger",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5, 
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+model
+
+# Plot model
+plot(model)
+
+```
+
+Output:
+
+```bash
+> # From previous step
+> tuneGrid <- data.frame(
+    .mtry = c(2, 3, 7),
+    .splitrule = "variance",
+    .min.node.size = 5
+  )
+> 
+> # Fit random forest: model
+> model <- train(
+    quality ~ .,
+    tuneGrid = tuneGrid,
+    data = wine, 
+    method = "ranger",
+    trControl = trainControl(
+      method = "cv", 
+      number = 5, 
+      verboseIter = TRUE
+    )
+  )
++ Fold1: mtry=2, splitrule=variance, min.node.size=5 
+- Fold1: mtry=2, splitrule=variance, min.node.size=5 
++ Fold1: mtry=3, splitrule=variance, min.node.size=5 
+- Fold1: mtry=3, splitrule=variance, min.node.size=5 
++ Fold1: mtry=7, splitrule=variance, min.node.size=5 
+- Fold1: mtry=7, splitrule=variance, min.node.size=5 
++ Fold2: mtry=2, splitrule=variance, min.node.size=5 
+- Fold2: mtry=2, splitrule=variance, min.node.size=5 
++ Fold2: mtry=3, splitrule=variance, min.node.size=5 
+- Fold2: mtry=3, splitrule=variance, min.node.size=5 
++ Fold2: mtry=7, splitrule=variance, min.node.size=5 
+- Fold2: mtry=7, splitrule=variance, min.node.size=5 
++ Fold3: mtry=2, splitrule=variance, min.node.size=5 
+- Fold3: mtry=2, splitrule=variance, min.node.size=5 
++ Fold3: mtry=3, splitrule=variance, min.node.size=5 
+- Fold3: mtry=3, splitrule=variance, min.node.size=5 
++ Fold3: mtry=7, splitrule=variance, min.node.size=5 
+- Fold3: mtry=7, splitrule=variance, min.node.size=5 
++ Fold4: mtry=2, splitrule=variance, min.node.size=5 
+- Fold4: mtry=2, splitrule=variance, min.node.size=5 
++ Fold4: mtry=3, splitrule=variance, min.node.size=5 
+- Fold4: mtry=3, splitrule=variance, min.node.size=5 
++ Fold4: mtry=7, splitrule=variance, min.node.size=5 
+- Fold4: mtry=7, splitrule=variance, min.node.size=5 
++ Fold5: mtry=2, splitrule=variance, min.node.size=5 
+- Fold5: mtry=2, splitrule=variance, min.node.size=5 
++ Fold5: mtry=3, splitrule=variance, min.node.size=5 
+- Fold5: mtry=3, splitrule=variance, min.node.size=5 
++ Fold5: mtry=7, splitrule=variance, min.node.size=5 
+- Fold5: mtry=7, splitrule=variance, min.node.size=5 
+Aggregating results
+Selecting tuning parameters
+Fitting mtry = 2, splitrule = variance, min.node.size = 5 on full training set
+> 
+> # Print model to console
+> model
+Random Forest 
+
+100 samples
+ 12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 79, 80, 81, 80, 80 
+Resampling results across tuning parameters:
+
+  mtry  RMSE       Rsquared   MAE      
+  2     0.6737366  0.2261653  0.5110236
+  3     0.6737869  0.2260317  0.5094642
+  7     0.6776795  0.2210202  0.5125127
+
+Tuning parameter 'splitrule' was held constant at a value of variance
+
+Tuning parameter 'min.node.size' was held constant at a value of 5
+RMSE was used to select the optimal model using the smallest value.
+The final values used for the model were mtry = 2, splitrule = variance
+ and min.node.size = 5.
+> 
+> # Plot model
+> plot(model)
+> 
+
+```
+
+![ch3plot2](ch3plot2.png)
+
+
+
+
