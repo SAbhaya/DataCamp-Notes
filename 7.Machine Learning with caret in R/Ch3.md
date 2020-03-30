@@ -361,6 +361,16 @@ The final values used for the model were mtry = 2, splitrule = variance
 
 ![ch3plot2](ch3plot2.png)
 
+***
+
+## Introduction to glmnet
+## Advantage of glmnet
+
+> glmnet models place constraints on your coefficients, which helps prevent overfitting.
+
+## Make a custom trainControl
+
+
 
 
 
