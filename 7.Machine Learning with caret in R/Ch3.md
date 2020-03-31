@@ -370,6 +370,161 @@ The final values used for the model were mtry = 2, splitrule = variance
 
 ## Make a custom trainControl
 
+Classification problems -> provide a custom summaryFunction to the train() function to use the AUC metric.
+
+1. make custom trainControl
+2. set classProbs = TRUE
+3. set summaryFunction = twoClassSummary
+
+```r
+# Create custom trainControl: myControl
+myControl <- trainControl(
+  method = "cv", 
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = TRUE
+)
+
+```
+
+***
+
+## Fit glmnet with custom trainControl
+
+```r
+
+# Fit glmnet model: model
+model <- train(
+  y ~ ., 
+  overfit,
+  method = "glmnet",
+  trControl = myControl
+)
+
+# Print model to console
+
+model
+
+# Print maximum ROC statistic
+max(model[["results"]]$ROC)
+
+```
+
+
+
+
+Output:
+
+```bash
+
+> # Fit glmnet model: model
+> model <- train(
+    y ~ ., 
+    overfit,
+    method = "glmnet",
+    trControl = myControl
+  )
+Warning message: The metric "Accuracy" was not in the result set. ROC will be used instead.
++ Fold01: alpha=0.10, lambda=0.01013 
+- Fold01: alpha=0.10, lambda=0.01013 
++ Fold01: alpha=0.55, lambda=0.01013 
+- Fold01: alpha=0.55, lambda=0.01013 
++ Fold01: alpha=1.00, lambda=0.01013 
+- Fold01: alpha=1.00, lambda=0.01013 
++ Fold02: alpha=0.10, lambda=0.01013 
+- Fold02: alpha=0.10, lambda=0.01013 
++ Fold02: alpha=0.55, lambda=0.01013 
+- Fold02: alpha=0.55, lambda=0.01013 
++ Fold02: alpha=1.00, lambda=0.01013 
+- Fold02: alpha=1.00, lambda=0.01013 
++ Fold03: alpha=0.10, lambda=0.01013 
+- Fold03: alpha=0.10, lambda=0.01013 
++ Fold03: alpha=0.55, lambda=0.01013 
+- Fold03: alpha=0.55, lambda=0.01013 
++ Fold03: alpha=1.00, lambda=0.01013 
+- Fold03: alpha=1.00, lambda=0.01013 
++ Fold04: alpha=0.10, lambda=0.01013 
+- Fold04: alpha=0.10, lambda=0.01013 
++ Fold04: alpha=0.55, lambda=0.01013 
+- Fold04: alpha=0.55, lambda=0.01013 
++ Fold04: alpha=1.00, lambda=0.01013 
+- Fold04: alpha=1.00, lambda=0.01013 
++ Fold05: alpha=0.10, lambda=0.01013 
+- Fold05: alpha=0.10, lambda=0.01013 
++ Fold05: alpha=0.55, lambda=0.01013 
+- Fold05: alpha=0.55, lambda=0.01013 
++ Fold05: alpha=1.00, lambda=0.01013 
+- Fold05: alpha=1.00, lambda=0.01013 
++ Fold06: alpha=0.10, lambda=0.01013 
+- Fold06: alpha=0.10, lambda=0.01013 
++ Fold06: alpha=0.55, lambda=0.01013 
+- Fold06: alpha=0.55, lambda=0.01013 
++ Fold06: alpha=1.00, lambda=0.01013 
+- Fold06: alpha=1.00, lambda=0.01013 
++ Fold07: alpha=0.10, lambda=0.01013 
+- Fold07: alpha=0.10, lambda=0.01013 
++ Fold07: alpha=0.55, lambda=0.01013 
+- Fold07: alpha=0.55, lambda=0.01013 
++ Fold07: alpha=1.00, lambda=0.01013 
+- Fold07: alpha=1.00, lambda=0.01013 
++ Fold08: alpha=0.10, lambda=0.01013 
+- Fold08: alpha=0.10, lambda=0.01013 
++ Fold08: alpha=0.55, lambda=0.01013 
+- Fold08: alpha=0.55, lambda=0.01013 
++ Fold08: alpha=1.00, lambda=0.01013 
+- Fold08: alpha=1.00, lambda=0.01013 
++ Fold09: alpha=0.10, lambda=0.01013 
+- Fold09: alpha=0.10, lambda=0.01013 
++ Fold09: alpha=0.55, lambda=0.01013 
+- Fold09: alpha=0.55, lambda=0.01013 
++ Fold09: alpha=1.00, lambda=0.01013 
+- Fold09: alpha=1.00, lambda=0.01013 
++ Fold10: alpha=0.10, lambda=0.01013 
+- Fold10: alpha=0.10, lambda=0.01013 
++ Fold10: alpha=0.55, lambda=0.01013 
+- Fold10: alpha=0.55, lambda=0.01013 
++ Fold10: alpha=1.00, lambda=0.01013 
+- Fold10: alpha=1.00, lambda=0.01013 
+Aggregating results
+Selecting tuning parameters
+Fitting alpha = 0.55, lambda = 0.0101 on full training set
+> 
+> # Print model to console
+> 
+> model
+glmnet 
+
+250 samples
+200 predictors
+  2 classes: 'class1', 'class2' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 226, 225, 226, 225, 224, 226, ... 
+Resampling results across tuning parameters:
+
+  alpha  lambda        ROC        Sens  Spec     
+  0.10   0.0001012745  0.4525362  0     0.9742754
+  0.10   0.0010127448  0.4590580  0     0.9827899
+  0.10   0.0101274483  0.4632246  0     0.9913043
+  0.55   0.0001012745  0.4198370  0     0.9523551
+  0.55   0.0010127448  0.4240942  0     0.9567029
+  0.55   0.0101274483  0.4675725  0     0.9784420
+  1.00   0.0001012745  0.3983696  0     0.9222826
+  1.00   0.0010127448  0.4134964  0     0.9353261
+  1.00   0.0101274483  0.4096014  0     0.9827899
+
+ROC was used to select the optimal model using the largest value.
+The final values used for the model were alpha = 0.55 and lambda = 0.01012745.
+> 
+> # Print maximum ROC statistic
+> max(model[["results"]]$ROC)
+[1] 0.4675725
+> 
+
+```
+
 
 
 
