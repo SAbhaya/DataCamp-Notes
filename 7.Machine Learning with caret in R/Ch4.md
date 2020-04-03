@@ -310,4 +310,8 @@ Resampling results:
 > 
 
 ```
+***
+
+## Remove near zero variance predictors
+
 
