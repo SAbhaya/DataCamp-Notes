@@ -164,3 +164,150 @@ Output:
 ![ch4plot1](ch4plot1.png)
 
 ***
+
+## Combining preprocessing methods
+
+## 1
+
+```r
+
+# Fit glm with median imputation
+model <- train(
+  x = breast_cancer_x, 
+  y = breast_cancer_y,
+  method = "glm",
+  trControl = myControl,
+  preProcess = "medianImpute"
+)
+
+# Print model
+model
+
+```
+Output:
+
+```bash
+
+> # Fit glm with median imputation
+> model <- train(
+    x = breast_cancer_x, 
+    y = breast_cancer_y,
+    method = "glm",
+    trControl = myControl,
+    preProcess = "medianImpute"
+  )
+Warning message: The metric "Accuracy" was not in the result set. ROC will be used instead.
++ Fold01: parameter=none 
+- Fold01: parameter=none 
++ Fold02: parameter=none 
+- Fold02: parameter=none 
++ Fold03: parameter=none 
+- Fold03: parameter=none 
++ Fold04: parameter=none 
+- Fold04: parameter=none 
++ Fold05: parameter=none 
+- Fold05: parameter=none 
++ Fold06: parameter=none 
+- Fold06: parameter=none 
++ Fold07: parameter=none 
+- Fold07: parameter=none 
++ Fold08: parameter=none 
+- Fold08: parameter=none 
++ Fold09: parameter=none 
+- Fold09: parameter=none 
++ Fold10: parameter=none 
+- Fold10: parameter=none 
+Aggregating results
+Fitting final model on full training set
+> 
+> # Print model
+> model
+Generalized Linear Model 
+
+699 samples
+  9 predictor
+  2 classes: 'benign', 'malignant' 
+
+Pre-processing: median imputation (9) 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 629, 630, 629, 630, 629, 628, ... 
+Resampling results:
+
+  ROC        Sens      Spec     
+  0.9929992  0.967343  0.9461667
+> 
+
+```
+## 2
+
+```r
+
+# Update model with standardization
+model <- train(
+  x = breast_cancer_x, 
+  y = breast_cancer_y,
+  method = "glm",
+  trControl = myControl,
+  preProcess = c("medianImpute","center","scale")
+)
+
+# Print updated model
+model
+
+```
+
+Output:
+
+```bash
+
+> # Update model with standardization
+> model <- train(
+    x = breast_cancer_x, 
+    y = breast_cancer_y,
+    method = "glm",
+    trControl = myControl,
+    preProcess = c("medianImpute","center","scale")
+  )
+Warning message: The metric "Accuracy" was not in the result set. ROC will be used instead.
++ Fold01: parameter=none 
+- Fold01: parameter=none 
++ Fold02: parameter=none 
+- Fold02: parameter=none 
++ Fold03: parameter=none 
+- Fold03: parameter=none 
++ Fold04: parameter=none 
+- Fold04: parameter=none 
++ Fold05: parameter=none 
+- Fold05: parameter=none 
++ Fold06: parameter=none 
+- Fold06: parameter=none 
++ Fold07: parameter=none 
+- Fold07: parameter=none 
++ Fold08: parameter=none 
+- Fold08: parameter=none 
++ Fold09: parameter=none 
+- Fold09: parameter=none 
++ Fold10: parameter=none 
+- Fold10: parameter=none 
+Aggregating results
+Fitting final model on full training set
+> 
+> # Print updated model
+> model
+Generalized Linear Model 
+
+699 samples
+  9 predictor
+  2 classes: 'benign', 'malignant' 
+
+Pre-processing: median imputation (9), centered (9), scaled (9) 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 630, 629, 629, 630, 629, 629, ... 
+Resampling results:
+
+  ROC        Sens       Spec     
+  0.9916832  0.9694203  0.9418333
+> 
+
+```
+
