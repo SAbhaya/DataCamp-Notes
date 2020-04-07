@@ -351,9 +351,132 @@ bloodbrain_x_small <- bloodbrain_x[ , setdiff(all_cols, remove_cols)]
 
 ```
 
+***
+
+## preProcess() and nearZeroVar()
+
+use the `preProcess` argument in caret to remove near-zero variance predictors
+Set the `preProcess` argument equal to `"nzv"`.
 
 
+***
 
+## Fit model on reduced blood-brain data
 
+```r
 
+# Fit model on reduced data: model
+model <- train(
+  x = bloodbrain_x_small, 
+  y = bloodbrain_y, 
+  method = "glm"
+)
 
+# Print model to console
+model
+
+```
+
+Output:
+
+```bash
+> # Fit model on reduced data: model
+> model <- train(
+    x = bloodbrain_x_small, 
+    y = bloodbrain_y, 
+    method = "glm"
+  )
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+Warning message: prediction from a rank-deficient fit may be misleading
+> 
+> # Print model to console
+> model
+Generalized Linear Model 
+
+208 samples
+112 predictors
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+Summary of sample sizes: 208, 208, 208, 208, 208, 208, ... 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  1.583861  0.1134041  1.052184
+> 
+
+```
+
+***
+
+## Using PCA as an alternative to nearZeroVar()
+
+```r
+
+# Fit glm model using PCA: model
+model <- train(
+  x = bloodbrain_x, 
+  y = bloodbrain_y,
+  method = "glm", 
+  preProcess = "pca"
+)
+
+# Print model to console
+model
+
+```
+
+Output:
+
+```bash
+
+> # Fit glm model using PCA: model
+> model <- train(
+    x = bloodbrain_x, 
+    y = bloodbrain_y,
+    method = "glm", 
+    preProcess = "pca"
+  )
+> 
+> # Print model to console
+> model
+Generalized Linear Model 
+
+208 samples
+132 predictors
+
+Pre-processing: principal component signal extraction (132), centered
+ (132), scaled (132) 
+Resampling: Bootstrapped (25 reps) 
+Summary of sample sizes: 208, 208, 208, 208, 208, 208, ... 
+Resampling results:
+
+  RMSE       Rsquared   MAE      
+  0.6116041  0.4192338  0.4617475
+> 
+
+```
+***
