@@ -314,4 +314,46 @@ Resampling results:
 
 ## Remove near zero variance predictors
 
+Using `caret` function `nearZeroVar()`
+
+`nearZeroVar()` takes data `x`
+
+ratio of the most common value to the second most common value: `freqCut`
+
+and the percentage of distinct values out of the number of total samples, `uniqueCut`
+
+default:
+
+```
+freqCut = 19
+uniqueCut = 10
+
+```
+
+recommended:
+
+```
+freqCut = 2
+uniqueCut = 20
+```
+
+```r
+
+# Identify near zero variance predictors: remove_cols
+remove_cols <- nearZeroVar(bloodbrain_x, names = TRUE, 
+                           freqCut = 2, uniqueCut = 20)
+
+# Get all column names from bloodbrain_x: all_cols
+all_cols <-  names(bloodbrain_x)
+
+# Remove from data: bloodbrain_x_small
+bloodbrain_x_small <- bloodbrain_x[ , setdiff(all_cols, remove_cols)]
+
+```
+
+
+
+
+
+
 
