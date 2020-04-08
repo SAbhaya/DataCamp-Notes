@@ -166,6 +166,57 @@ Output:
 
 ## Ensembling models
 
+caretEnsemble provides the `caretList()` function for creating multiple caret models at once on the same dataset, using the same resampling folds.
+
+```r
+
+# Create ensemble model: stack
+stack <- caretStack(model_list, method = "glm")
+
+# Look at summary
+summary(stack)
+
+```
+
+Output:
+
+```bash
+
+> # Create ensemble model: stack
+> stack <- caretStack(model_list, method = "glm")
+> 
+> # Look at summary
+> summary(stack)
+
+Call:
+NULL
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.1497  -0.5238  -0.4432  -0.4193   2.2366  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -2.41968    0.13961 -17.331  < 2e-16 ***
+item1        0.02305    0.50968   0.045    0.964    
+item2        3.07211    0.62227   4.937 7.94e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 765.13  on 999  degrees of freedom
+Residual deviance: 733.68  on 997  degrees of freedom
+AIC: 739.68
+
+Number of Fisher Scoring iterations: 4
+> 
+
+```
+
+***
+
+*End of Chapter 5*
 
 
 
