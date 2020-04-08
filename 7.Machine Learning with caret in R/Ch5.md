@@ -146,7 +146,25 @@ Output:
 
 ![ch5plot1](ch5plot1.png)
 
+***
 
+## Create a scatterplot
+
+```r
+
+# Create xyplot
+xyplot(resamples, metric = "ROC")
+
+```
+
+Output:
+
+![ch5plot2](ch5plot2.png)
+
+
+***
+
+## Ensembling models
 
 
 
