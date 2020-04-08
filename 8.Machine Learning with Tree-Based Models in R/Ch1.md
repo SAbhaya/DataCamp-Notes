@@ -38,3 +38,17 @@ Plot:
 
 ![ch1plot1](ch1plot1.png)
 
+***
+
+## Advantages of tree-based methods
+
+What are some advantages of using tree-based methods over other supervised learning methods?
+
+Model interpretability (easy to understand why a prediction is made).
+No pre-processing (e.g. normalization) of the data is required.
+
+***
+## Train/test split
+
+
+
