@@ -135,6 +135,62 @@ node), split, n, loss, yval, (yprob)
 ```
 ***
 
-## 
+## Compute confusion matrix
+
+
+```r
+
+# Generate predicted classes using the model object
+class_prediction <- predict(object = credit_model,  
+                        newdata = credit_test,   
+                        type = "class")  
+                            
+# Calculate the confusion matrix for the test set
+confusionMatrix(data = class_prediction,       
+                reference = credit_test$default)  
+                
+```
+
+Output:
+
+```bash
+
+> # Generate predicted classes using the model object
+> class_prediction <- predict(object = credit_model,  
+                          newdata = credit_test,   
+                          type = "class")
+> 
+> # Calculate the confusion matrix for the test set
+> confusionMatrix(data = class_prediction,       
+                  reference = credit_test$default)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction  no yes
+       no  100  34
+       yes  38  28
+                                          
+               Accuracy : 0.64            
+                 95% CI : (0.5693, 0.7065)
+    No Information Rate : 0.69            
+    P-Value [Acc > NIR] : 0.9443          
+                                          
+                  Kappa : 0.1732          
+ Mcnemar's Test P-Value : 0.7237          
+                                          
+            Sensitivity : 0.7246          
+            Specificity : 0.4516          
+         Pos Pred Value : 0.7463          
+         Neg Pred Value : 0.4242          
+             Prevalence : 0.6900          
+         Detection Rate : 0.5000          
+   Detection Prevalence : 0.6700          
+      Balanced Accuracy : 0.5881          
+                                          
+       'Positive' Class : no
+> 
+
+```
+
 
 
