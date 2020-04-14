@@ -143,7 +143,71 @@ Output:
 
 ```
 
+***
+
+## Tuning the model
+
+prune() - Tune or trim to find "CP"- Complexity Parameter
+
+```r
+
+# Plot the "CP Table"
+plotcp(grade_model)
+
+# Print the "CP Table"
+print(grade_model$cptable)
+
+# Retrieve optimal cp value based on cross-validated error
+opt_index <- which.min(grade_model$cptable[, "xerror"])
+cp_opt <- grade_model$cptable[opt_index, "CP"]
+
+# Prune the model (to optimized cp value)
+grade_model_opt <- prune(tree = grade_model, 
+                         cp = cp_opt)
+                          
+# Plot the optimized model
+rpart.plot(x = grade_model_opt, yesno = 2, type = 0, extra = 0)
+
+```
+
+Output:
+
+```bash
+
+> # Plot the "CP Table"
+> plotcp(grade_model)
+> 
+> # Print the "CP Table"
+> print(grade_model$cptable)
+          CP nsplit rel error    xerror       xstd
+1 0.06839852      0 1.0000000 1.0080595 0.09215642
+2 0.06726713      1 0.9316015 1.0920667 0.09543723
+3 0.03462630      2 0.8643344 0.9969520 0.08632297
+4 0.02508343      3 0.8297080 0.9291298 0.08571411
+5 0.01995676      4 0.8046246 0.9357838 0.08560120
+6 0.01817661      5 0.7846679 0.9337462 0.08087153
+7 0.01203879      6 0.7664912 0.9092646 0.07982862
+8 0.01000000      7 0.7544525 0.9407895 0.08399125
+> 
+> # Retrieve optimal cp value based on cross-validated error
+> opt_index <- which.min(grade_model$cptable[, "xerror"])
+> cp_opt <- grade_model$cptable[opt_index, "CP"]
+> 
+> # Prune the model (to optimized cp value)
+> grade_model_opt <- prune(tree = grade_model, 
+                           cp = cp_opt)
+> 
+> # Plot the optimized model
+> rpart.plot(x = grade_model_opt, yesno = 2, type = 0, extra = 0)
+> 
 
 
+```
+
+### CP Table Plot
+![ch2plot2](ch2plot2.png)
+
+## Optimized model Plot
+![ch2plot3](ch2plot3.png)
 
 
