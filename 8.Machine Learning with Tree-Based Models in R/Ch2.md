@@ -112,9 +112,36 @@ node), split, n, deviance, yval
 
 ![ch2plot1](ch2plot1.png)
 
+***
 
+## Evaluate a regression tree model
 
+```r
 
+# Generate predictions on a test set
+pred <- predict(object = grade_model,   # model object 
+                newdata = grade_test)  # test dataset
+
+# Compute the RMSE
+rmse(actual = grade_test$final_grade, 
+     predicted = pred)
+     
+```
+Output:
+
+```bash
+
+> # Generate predictions on a test set
+> pred <- predict(object = grade_model,   # model object 
+                  newdata = grade_test)  # test dataset
+> 
+> # Compute the RMSE
+> rmse(actual = grade_test$final_grade, 
+       predicted = pred)
+[1] 2.278249
+> 
+
+```
 
 
 
