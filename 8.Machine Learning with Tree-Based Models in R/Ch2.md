@@ -207,7 +207,7 @@ Output:
 ### CP Table Plot
 ![ch2plot2](ch2plot2.png)
 
-## Optimized model Plot
+### Optimized model Plot
 ![ch2plot3](ch2plot3.png)
 
 ***
@@ -260,5 +260,65 @@ Output:
 ```
 
 ***
+
+## Generate a grid of models
+
+
+```r
+
+# Number of potential models in the grid
+num_models <- nrow(hyper_grid)
+
+# Create an empty list to store models
+grade_models <- list()
+
+# Write a loop over the rows of hyper_grid to train the grid of models
+for (i in 1:num_models) {
+
+    # Get minsplit, maxdepth values at row i
+    minsplit <- hyper_grid$minsplit[i]
+    maxdepth <- hyper_grid$maxdepth[i]
+
+    # Train a model and store in the list
+    grade_models[[i]] <- rpart(formula = final_grade ~ ., 
+                               data = grade_train, 
+                               method = "anova",
+                               minsplit = minsplit,
+                               maxdepth = maxdepth)
+}
+
+
+```
+
+Output:
+
+```bash
+
+> # Number of potential models in the grid
+> num_models <- nrow(hyper_grid)
+> 
+> # Create an empty list to store models
+> grade_models <- list()
+> 
+> # Write a loop over the rows of hyper_grid to train the grid of models
+> for (i in 1:num_models) {
+  
+      # Get minsplit, maxdepth values at row i
+      minsplit <- hyper_grid$minsplit[i]
+      maxdepth <- hyper_grid$maxdepth[i]
+  
+      # Train a model and store in the list
+      grade_models[[i]] <- rpart(formula = final_grade ~ ., 
+                                 data = grade_train, 
+                                 method = "anova",
+                                 minsplit = minsplit,
+                                 maxdepth = maxdepth)
+  }
+> 
+
+
+```
+## Evaluate the grid
+
 
 
