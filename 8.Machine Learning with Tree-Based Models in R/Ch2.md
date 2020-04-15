@@ -210,4 +210,55 @@ Output:
 ## Optimized model Plot
 ![ch2plot3](ch2plot3.png)
 
+***
+
+## Generate a grid of hyperparameter values
+
+```r
+
+# Establish a list of possible values for minsplit and maxdepth
+minsplit <- seq(1, 4, 1)
+maxdepth <- seq(1, 6, 1)
+
+# Create a data frame containing all combinations 
+hyper_grid <- expand.grid(minsplit = minsplit, maxdepth = maxdepth)
+
+# Check out the grid
+head(hyper_grid)
+
+# Print the number of grid combinations
+nrow(hyper_grid)
+
+```
+
+Output:
+
+```bash
+
+> # Establish a list of possible values for minsplit and maxdepth
+> minsplit <- seq(1, 4, 1)
+> maxdepth <- seq(1, 6, 1)
+> 
+> # Create a data frame containing all combinations
+> hyper_grid <- expand.grid(minsplit = minsplit, maxdepth = maxdepth)
+> 
+> # Check out the grid
+> head(hyper_grid)
+  minsplit maxdepth
+1        1        1
+2        2        1
+3        3        1
+4        4        1
+5        1        2
+6        2        2
+> 
+> # Print the number of grid combinations
+> nrow(hyper_grid)
+[1] 24
+> 
+
+```
+
+***
+
 
