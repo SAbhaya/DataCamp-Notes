@@ -303,3 +303,41 @@ Output:
 
 ```
 
+## Compare test set performance to CV performance
+
+```r
+
+# Print ipred::bagging test set AUC estimate
+print(credit_ipred_model_test_auc)
+
+# Print caret "treebag" test set AUC estimate
+print(credit_caret_model_test_auc)
+                
+# Compare to caret 5-fold cross-validated AUC
+credit_caret_model$results[,"ROC"]
+
+
+```
+
+Output:
+
+```bash
+
+> # Print ipred::bagging test set AUC estimate
+> print(credit_ipred_model_test_auc)
+[1] 0.7809724
+> 
+> # Print caret "treebag" test set AUC estimate
+> print(credit_caret_model_test_auc)
+[1] 0.7762389
+> 
+> # Compare to caret 5-fold cross-validated AUC
+> credit_caret_model$results[,"ROC"]
+[1] 0.7203687
+> 
+
+```
+
+
+
+
