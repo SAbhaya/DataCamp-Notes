@@ -128,3 +128,178 @@ Prediction  no yes
 
 ## Predict on a test set and compute AUC
 
+```r
+
+# Generate predictions on the test set
+pred <- predict(object = credit_model,
+                newdata = credit_test,
+                type = "prob")
+
+# `pred` is a matrix
+class(pred)
+                
+# Look at the pred format
+head(pred)
+                
+# Compute the AUC (`actual` must be a binary (or 1/0 numeric) vector)
+auc(actual = ifelse(credit_test$default == "yes", 1, 0), 
+    predicted = pred[,"yes"])                    
+    
+```
+
+Output:
+
+```bash
+
+> # Generate predictions on the test set
+> pred <- predict(object = credit_model,
+                  newdata = credit_test,
+                  type = "prob")
+> 
+> # `pred` is a matrix
+> class(pred)
+[1] "matrix"
+> 
+> # Look at the pred format
+> head(pred)
+       no  yes
+[1,] 0.96 0.04
+[2,] 0.28 0.72
+[3,] 0.36 0.64
+[4,] 0.76 0.24
+[5,] 0.92 0.08
+[6,] 0.48 0.52
+> 
+> # Compute the AUC (`actual` must be a binary (or 1/0 numeric) vector)
+> auc(actual = ifelse(credit_test$default == "yes", 1, 0), 
+      predicted = pred[,"yes"])
+[1] 0.7809724
+> 
+
+```
+
+***
+
+## Cross-validate a bagged tree model in caret
+
+```r
+
+# Specify the training configuration
+ctrl <- trainControl(method = "cv",     # Cross-validation
+                     number = 5,      # 5 folds
+                     classProbs = TRUE,                  # For AUC
+                     summaryFunction = twoClassSummary)  # For AUC
+
+# Cross validate the credit model using "treebag" method; 
+# Track AUC (Area under the ROC curve)
+set.seed(1)  # for reproducibility
+credit_caret_model <- train(default ~ .,
+                            data = credit_train, 
+                            method = "treebag",
+                            metric = "ROC",
+                            trControl = ctrl)
+
+# Look at the model object
+print(credit_caret_model)
+
+# Inspect the contents of the model list 
+names(credit_caret_model)
+
+# Print the CV AUC
+credit_caret_model$results[,"ROC"]
+
+```
+
+Output:
+
+```bash
+
+> # Specify the training configuration
+> ctrl <- trainControl(method = "cv",     # Cross-validation
+                       number = 5,      # 5 folds
+                       classProbs = TRUE,                  # For AUC
+                       summaryFunction = twoClassSummary)  # For AUC
+> 
+> # Cross validate the credit model using "treebag" method;
+> # Track AUC (Area under the ROC curve)
+> set.seed(1)  # for reproducibility
+> credit_caret_model <- train(default ~ .,
+                              data = credit_train, 
+                              method = "treebag",
+                              metric = "ROC",
+                              trControl = ctrl)
+> 
+> # Look at the model object
+> print(credit_caret_model)
+Bagged CART 
+
+800 samples
+ 16 predictor
+  2 classes: 'no', 'yes' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 641, 640, 640, 639, 640 
+Resampling results:
+
+  ROC        Sens       Spec     
+  0.7203687  0.8275126  0.4417553
+> 
+> # Inspect the contents of the model list
+> names(credit_caret_model)
+ [1] "method"       "modelInfo"    "modelType"    "results"      "pred"        
+ [6] "bestTune"     "call"         "dots"         "metric"       "control"     
+[11] "finalModel"   "preProcess"   "trainingData" "resample"     "resampledCM" 
+[16] "perfNames"    "maximize"     "yLimits"      "times"        "levels"      
+[21] "terms"        "coefnames"    "contrasts"    "xlevels"
+> 
+> # Print the CV AUC
+> credit_caret_model$results[,"ROC"]
+[1] 0.7203687
+> 
+
+```
+***
+
+## Generate predictions from the caret model
+
+```r
+
+# Generate predictions on the test set
+pred <- predict(object = credit_caret_model, 
+                newdata = credit_test,
+                type = "prob")
+
+# Compute the AUC (`actual` must be a binary (or 1/0 numeric) vector)
+auc(actual = ifelse( credit_test$default == "yes", 1, 0), 
+                    predicted = pred[,"yes"])
+                    
+```
+
+Output:
+
+```bash
+
+> # Generate predictions on the test set
+> pred <- predict(object = credit_caret_model, 
+                  newdata = credit_test,
+                  type = "prob")
+> 
+> # Compute the AUC (`actual` must be a binary (or 1/0 numeric) vector)
+> auc(actual = ifelse( credit_test$dependents == "yes", 1, 0), 
+                      predicted = pred[,"yes"])
+[1] NaN
+> # Generate predictions on the test set
+> pred <- predict(object = credit_caret_model, 
+                  newdata = credit_test,
+                  type = "prob")
+> 
+> # Compute the AUC (`actual` must be a binary (or 1/0 numeric) vector)
+> auc(actual = ifelse( credit_test$default == "yes", 1, 0), 
+                      predicted = pred[,"yes"])
+[1] 0.7762389
+> 
+
+
+```
+
