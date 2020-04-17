@@ -46,4 +46,63 @@ yes 145  93  0.60924370
 ```
 ***
 
+## Evaluate out-of-bag error
+
+```r
+
+# Grab OOB error matrix & take a look
+err <- credit_model$err.rate
+head(err)
+
+# Look at final OOB error rate (last row in err matrix)
+oob_err <- err[nrow(err), "OOB"]
+print(oob_err)
+
+# Plot the model trained in the previous exercise
+plot(credit_model)
+
+# Add a legend since it doesn't have one by default
+legend(x = "right", 
+       legend = colnames(err),
+       fill = 1:ncol(err))
+       
+       
+```
+
+Output:
+
+```bash
+> # Grab OOB error matrix & take a look
+> err <- credit_model$err.rate
+> head(err)
+           OOB        no       yes
+[1,] 0.3414634 0.2657005 0.5375000
+[2,] 0.3311966 0.2462908 0.5496183
+[3,] 0.3232831 0.2476636 0.5147929
+[4,] 0.3164933 0.2180294 0.5561224
+[5,] 0.3197756 0.2095808 0.5801887
+[6,] 0.3176944 0.2115385 0.5619469
+> 
+> # Look at final OOB error rate (last row in err matrix)
+> oob_err <- err[nrow(err), "OOB"]
+> print(oob_err)
+    OOB 
+0.24125
+> 
+> # Plot the model trained in the previous exercise
+> plot(credit_model)
+> 
+> # Add a legend since it doesn't have one by default
+> legend(x = "right", 
+         legend = colnames(err),
+         fill = 1:ncol(err))
+> 
+
+```
+
+![ch4plot1](ch4plot1.png)
+
+***
+
+
 
