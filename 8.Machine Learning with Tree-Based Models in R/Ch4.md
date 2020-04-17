@@ -104,5 +104,71 @@ Output:
 
 ***
 
+## Evaluate model performance on a test set
 
+```r
+
+# Generate predicted classes using the model object
+class_prediction <- predict(object = credit_model,   # model object 
+                            newdata = credit_test,  # test dataset
+                            type = "class") # return classification labels
+                            
+# Calculate the confusion matrix for the test set
+cm <- confusionMatrix(data = class_prediction,       # predicted classes
+                      reference = credit_test$default)  # actual classes
+print(cm)
+
+# Compare test set accuracy to OOB accuracy
+paste0("Test Accuracy: ", cm$overall[1])
+paste0("OOB Accuracy: ", 1 - oob_err)
+
+```
+
+Output:
+
+```bash
+
+> # Generate predicted classes using the model object
+> class_prediction <- predict(object = credit_model,   # model object 
+                              newdata = credit_test,  # test dataset
+                              type = "class") # return classification labels
+> 
+> # Calculate the confusion matrix for the test set
+> cm <- confusionMatrix(data = class_prediction,       # predicted classes
+                        reference = credit_test$default)  # actual classes
+> print(cm)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction  no yes
+       no  131  40
+       yes   7  22
+                                       
+               Accuracy : 0.765        
+                 95% CI : (0.7, 0.8219)
+    No Information Rate : 0.69         
+    P-Value [Acc > NIR] : 0.01186      
+                                       
+                  Kappa : 0.3563       
+ Mcnemar's Test P-Value : 3.046e-06    
+                                       
+            Sensitivity : 0.9493       
+            Specificity : 0.3548       
+         Pos Pred Value : 0.7661       
+         Neg Pred Value : 0.7586       
+             Prevalence : 0.6900       
+         Detection Rate : 0.6550       
+   Detection Prevalence : 0.8550       
+      Balanced Accuracy : 0.6521       
+                                       
+       'Positive' Class : no
+> 
+> # Compare test set accuracy to OOB accuracy
+> paste0("Test Accuracy: ", cm$overall[1])
+[1] "Test Accuracy: 0.765"
+> paste0("OOB Accuracy: ", 1 - oob_err)
+[1] "OOB Accuracy: 0.75875"
+> 
+
+```
 
