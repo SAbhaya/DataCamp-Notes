@@ -171,4 +171,66 @@ Prediction  no yes
 > 
 
 ```
+***
+
+## Advantage of OOB error
+
+Main advantage of using OOB error instead of validation or test error:
+
+Evaluate the model using OOB error -> no need to create a seprate test set.
+
+## Evaluate test set AUC
+
+```r
+
+# Generate predictions on the test set
+pred <- predict(object = credit_model,
+            newdata = credit_test,
+            type = "prob")
+
+# `pred` is a matrix
+class(pred)
+                
+# Look at the pred format
+head(pred)
+                
+# Compute the AUC (`actual` must be a binary 1/0 numeric vector)
+auc(actual = ifelse(credit_test$default == "yes", 1, 0), 
+    predicted = pred[,"yes"])                    
+    
+    
+```
+
+Output:
+
+```bash
+
+> # Generate predictions on the test set
+> pred <- predict(object = credit_model,
+              newdata = credit_test,
+              type = "prob")
+> 
+> # `pred` is a matrix
+> class(pred)
+[1] "matrix" "votes"
+> 
+> # Look at the pred format
+> head(pred)
+      no   yes
+3  0.894 0.106
+10 0.294 0.706
+11 0.414 0.586
+14 0.772 0.228
+27 0.760 0.240
+28 0.618 0.382
+> 
+> # Compute the AUC (`actual` must be a binary 1/0 numeric vector)
+> auc(actual = ifelse(credit_test$default == "yes", 1, 0), 
+      predicted = pred[,"yes"])
+[1] 0.8037634
+> 
+
+
+```
+
 
