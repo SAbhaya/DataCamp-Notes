@@ -151,3 +151,114 @@ Output:
 ```
 ***
 
+## Early stopping in GBMs
+
+```r
+
+# Optimal ntree estimate based on OOB
+ntree_opt_oob <- gbm.perf(object = credit_model, 
+                          method = "OOB", 
+                          oobag.curve = TRUE)
+
+# Train a CV GBM model
+set.seed(1)
+credit_model_cv <- gbm(formula = default ~ ., 
+                       distribution = "bernoulli", 
+                       data = credit_train,
+                       n.trees = 10000,
+                       cv.folds = 2)
+
+# Optimal ntree estimate based on CV
+ntree_opt_cv <- gbm.perf(object = credit_model_cv, method = "cv")
+ 
+# Compare the estimates                         
+print(paste0("Optimal n.trees (OOB Estimate): ", ntree_opt_oob))                         
+print(paste0("Optimal n.trees (CV Estimate): ", ntree_opt_cv))
+
+```
+
+Output:
+
+```bash
+
+> # Optimal ntree estimate based on OOB
+> ntree_opt_oob <- gbm.perf(object = credit_model, 
+                            method = "OOB", 
+                            oobag.curve = TRUE)
+Warning message: OOB generally underestimates the optimal number of iterations although predictive performance is reasonably competitive. Using cv.folds>0 when calling gbm usually results in improved predictive performance.
+> 
+> # Train a CV GBM model
+> set.seed(1)
+> credit_model_cv <- gbm(formula = default ~ ., 
+                         distribution = "bernoulli", 
+                         data = credit_train,
+                         n.trees = 10000,
+                         cv.folds = 2)
+> 
+> # Optimal ntree estimate based on CV
+> ntree_opt_cv <- gbm.perf(object = credit_model_cv, method = "cv")
+> 
+> # Compare the estimates
+> print(paste0("Optimal n.trees (OOB Estimate): ", ntree_opt_oob))
+[1] "Optimal n.trees (OOB Estimate): 3233"
+> print(paste0("Optimal n.trees (CV Estimate): ", ntree_opt_cv))
+[1] "Optimal n.trees (CV Estimate): 7889"
+> 
+
+```
+![ch5plot2](ch5plo2.png)
+
+***
+
+## OOB vs CV-based early stopping
+
+```r
+
+# Generate predictions on the test set using ntree_opt_oob number of trees
+preds1 <- predict(object = credit_model, 
+                  newdata = credit_test,
+                  n.trees = ntree_opt_oob)
+                  
+# Generate predictions on the test set using ntree_opt_cv number of trees
+preds2 <- predict(object = credit_model, 
+                  newdata = credit_test,
+                  n.trees = ntree_opt_cv)   
+
+# Generate the test set AUCs using the two sets of preditions & compare
+auc1 <- auc(actual = credit_test$default, predicted = preds1)  #OOB
+auc2 <- auc(actual = credit_test$default, predicted = preds2)  #CV 
+
+# Compare AUC 
+print(paste0("Test set AUC (OOB): ", auc1))                         
+print(paste0("Test set AUC (CV): ", auc2))
+
+```
+
+Ouput:
+
+```bash
+
+> # Generate predictions on the test set using ntree_opt_oob number of trees
+> preds1 <- predict(object = credit_model, 
+                    newdata = credit_test,
+                    n.trees = ntree_opt_oob)
+> 
+> # Generate predictions on the test set using ntree_opt_cv number of trees
+> preds2 <- predict(object = credit_model, 
+                    newdata = credit_test,
+                    n.trees = ntree_opt_cv)
+> 
+> # Generate the test set AUCs using the two sets of preditions & compare
+> auc1 <- auc(actual = credit_test$default, predicted = preds1)  #OOB
+> auc2 <- auc(actual = credit_test$default, predicted = preds2)  #CV
+> 
+> # Compare AUC
+> print(paste0("Test set AUC (OOB): ", auc1))
+[1] "Test set AUC (OOB): 0.777816736792894"
+> print(paste0("Test set AUC (CV): ", auc2))
+[1] "Test set AUC (CV): 0.785530621785881"
+> 
+
+```
+***
+
