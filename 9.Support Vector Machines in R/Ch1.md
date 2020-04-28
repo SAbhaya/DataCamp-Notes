@@ -47,5 +47,34 @@ Output:
 
 ## Find the maximal margin separator
 
+```r
+#The maximal margin separator is at the midpoint of the two extreme points in each cluster.
+mm_separator <- (8.9 + 10)/2
+
+```
+
+***
+
+## Visualize the maximal margin separator
+
+```r
+
+#create data frame containing the maximum margin separator
+separator <- data.frame(sep = mm_separator)
+
+#add ggplot layer 
+plot_sep <- plot_ + geom_point(data = separator, aes(x = sep, y = 0), color = "blue", size = 4)
+
+#display plot
+plot_sep
+
+```
+
+Output:
+
+![ch1plot2](ch1plot2.png)
+
+***
+
 
 
