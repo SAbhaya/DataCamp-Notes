@@ -62,3 +62,42 @@ repl:~/workspace$ bash script.sh
 
 ***
 
+## Shell pipelines to Bash scripts
+
+```bash
+
+#!/usr/bash
+
+# Create a single-line pipe
+cat soccer_scores.csv | cut -d "," -f 2 | tail -n +2 | sort | uniq -c
+
+# Now save and run!
+
+```
+
+Output:
+
+```bash
+
+repl:~/workspace$ bash script.sh
+     13 Arda
+      8 Beroe
+      9 Botev
+      8 Cherno
+     17 Dunav
+     15 Etar
+      4 Levski
+      1 Lokomotiv
+repl:~/workspace$ 
+
+
+```
+
+***
+
+## Extract and edit using Bash scripts
+
+
+
+
+
