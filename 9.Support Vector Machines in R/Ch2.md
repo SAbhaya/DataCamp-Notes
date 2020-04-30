@@ -540,5 +540,32 @@ Output:
 
 ***
 
+## Visualizing support vectors using ggplot
 
+```r
+
+#load ggplot
+library(ggplot2)
+
+#build scatter plot of training dataset
+scatter_plot <- ggplot(data = trainset, aes(x = x1, y = x2, color = y)) + 
+    geom_point() + 
+    scale_color_manual(values = c("red", "blue"))
+ 
+#add plot layer marking out the support vectors 
+layered_plot <- 
+    scatter_plot + geom_point(data = trainset[svm_model$index, ], aes(x = x1, y = x2), color = "purple", size = 4, alpha = 0.5)
+
+#display plot
+layered_plot
+
+```
+
+Output:
+
+![ch2plot1](ch2plot1.png)
+
+***
+
+## Visualizing decision & margin bounds using `ggplot2`
 
