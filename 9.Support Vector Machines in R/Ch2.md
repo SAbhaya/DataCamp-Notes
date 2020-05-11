@@ -619,5 +619,150 @@ Output:
 
 
 ***
+## Tuning a linear SVM
+
+### 1
+
+```r
+
+#build svm model, cost = 1
+svm_model_1 <- svm(y ~ .,
+                   data = trainset,
+                   type = "C-classification",
+                   cost = 1,
+                   kernel = "linear",
+                   scale = FALSE)
+
+#print model details
+svm_model_1
+
+```
+
+Output:
+
+```bash
+> #build svm model, cost = 1
+> svm_model_1 <- svm(y ~ .,
+                     data = trainset,
+                     type = "C-classification",
+                     cost = 1,
+                     kernel = "linear",
+                     scale = FALSE)
+> 
+> #print model details
+> svm_model_1
+
+Call:
+svm(formula = y ~ ., data = trainset, type = "C-classification", 
+    cost = 1, kernel = "linear", scale = FALSE)
+
+
+Parameters:
+   SVM-Type:  C-classification 
+ SVM-Kernel:  linear 
+       cost:  1 
+      gamma:  0.5 
+
+Number of Support Vectors:  100
+
+```
+
+### 2
+
+```r
+#build svm model, cost = 100
+svm_model_100 <- svm(y ~ .,
+                   data = trainset,
+                   type = "C-classification",
+                   cost = 100,
+                   kernel = "linear",
+                   scale = FALSE)
+
+#print model details
+svm_model_100
+
+```
+
+Output:
+
+```bash
+> #build svm model, cost = 100
+> svm_model_100 <- svm(y ~ .,
+                     data = trainset,
+                     type = "C-classification",
+                     cost = 100,
+                     kernel = "linear",
+                     scale = FALSE)
+> 
+> #print model details
+> svm_model_100
+
+Call:
+svm(formula = y ~ ., data = trainset, type = "C-classification", 
+    cost = 100, kernel = "linear", scale = FALSE)
+
+
+Parameters:
+   SVM-Type:  C-classification 
+ SVM-Kernel:  linear 
+       cost:  100 
+      gamma:  0.5 
+
+Number of Support Vectors:  7
+> 
+```
+
+***
+
+## Visualizing decision boundaries and margins
+
+### 1
+
+```r
+
+#add decision boundary and margins for cost = 1 to training data scatter plot
+train_plot_with_margins <- train_plot + 
+    geom_abline(slope = slope_1, intercept = intercept_1) +
+    geom_abline(slope = slope_1, intercept = intercept_1-1/w_1[2], linetype = "dashed")+
+    geom_abline(slope = slope_1, intercept = intercept_1+1/w_1[2], linetype = "dashed")
+
+#display plot
+train_plot_with_margins
+
+```
+
+Output:
+
+![ch2plot4](ch2plot4.png)
+
+### 2
+
+```r
+
+#add decision boundary and margins for cost = 100 to training data scatter plot
+train_plot_with_margins <- train_plot_100 + 
+    geom_abline(slope = slope_100, intercept = intercept_100, color = "goldenrod") +
+    geom_abline(slope = slope_100, intercept = intercept_100-1/w_100[2], linetype = "dashed", color = "goldenrod")+
+    geom_abline(slope = slope_100, intercept = intercept_100+1/w_100[2], linetype = "dashed", color = "goldenrod")
+
+#display plot 
+train_plot_with_margins
+
+
+```
+
+Output:
+
+![ch2plot5](ch2plot5.png)
+
+***
+
+## When are soft margin classifiers useful?
+
+Working with a dataset that is almost linearly separable.
+press
+
+
+***
 
 
