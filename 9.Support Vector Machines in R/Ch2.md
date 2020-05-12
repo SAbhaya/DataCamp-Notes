@@ -765,4 +765,124 @@ press
 
 ***
 
+## A multiclass classification problem
+
+### 1
+
+```r
+
+#load library and build svm model
+library(e1071)
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+        
+```
+
+### 2
+
+```r
+#load library and build svm model
+library(e1071)
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+
+#compute training accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+
+```
+
+Ouput:
+
+```bash
+
+> #load library and build svm model
+> library(e1071)
+> svm_model<- 
+      svm(y ~ ., data = trainset, type = "C-classification", 
+          kernel = "linear", scale = FALSE)
+> 
+> #compute training accuracy
+> pred_train <- predict(svm_model, trainset)
+> mean(pred_train == trainset$y)
+[1] 0.9875969
+> 
+
+```
+### 3
+
+```r
+
+#load library and build svm model
+library(e1071)
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+
+#compute training accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+
+#compute test accuracy
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+
+```
+
+Output:
+
+```bash
+
+> #load library and build svm model
+> library(e1071)
+> svm_model<- 
+      svm(y ~ ., data = trainset, type = "C-classification", 
+          kernel = "linear", scale = FALSE)
+> 
+> #compute training accuracy
+> pred_train <- predict(svm_model, trainset)
+> mean(pred_train == trainset$y)
+[1] 0.9875969
+> 
+> #compute test accuracy
+> pred_test <- predict(svm_model, testset)
+> mean(pred_test == testset$y)
+[1] 0.9806452
+> 
+
+```
+
+### 4
+
+```r
+
+#load library and build svm model
+library(e1071)
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+
+#compute training accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+
+#compute test accuracy
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot
+plot(svm_model, trainset)
+
+```
+
+Output:
+
+![ch2plot6](ch2plot6.png)
+
+
+
+
 
