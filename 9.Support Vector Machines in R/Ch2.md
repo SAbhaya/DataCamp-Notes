@@ -883,6 +883,51 @@ Output:
 ![ch2plot6](ch2plot6.png)
 
 
+## Iris redux - a more robust accuracy.
 
+```r
+
+for (i in 1:100){
+  	#assign 80% of the data to the training set
+    iris[, "train"] <- ifelse(runif(nrow(iris)) < 0.8, 1, 0)
+    trainColNum <- grep("train", names(iris))
+    trainset <- iris[iris$train == 1, -trainColNum]
+    testset <- iris[iris$train == 0, -trainColNum]
+  	#build model using training data
+    svm_model <- svm(Species~ ., data = trainset, 
+                     type = "C-classification", kernel = "linear")
+  	#calculate accuracy on test data
+    pred_test <- predict(svm_model, testset)
+    accuracy[i] <- mean(pred_test == testset$Species)
+}
+mean(accuracy) 
+sd(accuracy)
+
+```
+
+Output:
+
+```bash
+
+> for (i in 1:100){
+    	#assign 80% of the data to the training set
+      iris[, "train"] <- ifelse(runif(nrow(iris)) < 0.8, 1, 0)
+      trainColNum <- grep("train", names(iris))
+      trainset <- iris[iris$train == 1, -trainColNum]
+      testset <- iris[iris$train == 0, -trainColNum]
+    	#build model using training data
+      svm_model <- svm(Species~ ., data = trainset, 
+                       type = "C-classification", kernel = "linear")
+    	#calculate accuracy on test data
+      pred_test <- predict(svm_model, testset)
+      accuracy[i] <- mean(pred_test == testset$Species)
+  }
+> mean(accuracy)
+[1] 0.9631779
+> sd(accuracy)
+[1] 0.03084727
+> 
+
+```
 
 
