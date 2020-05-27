@@ -189,3 +189,42 @@ plot_decision
 Output:
 
 ![ch3plot2.png](ch3plot2.png)
+
+***
+
+## SVM with polynomial kernel
+
+```r
+
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "polynomial", degree = 2)
+
+#measure training and test accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot
+plot(svm_model, trainset)
+
+```
+Output:
+
+```bash
+> mean(pred_train == trainset$y)
+[1] 0.9745223
+> pred_test <- predict(svm_model, testset)
+> mean(pred_test == testset$y)
+[1] 0.9651163
+
+```
+
+
+![ch3plot3.png](ch3plot2.png)
+
+***
+
+
+
