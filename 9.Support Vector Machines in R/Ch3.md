@@ -226,5 +226,94 @@ Output:
 
 ***
 
+## Using `tune.svm()`
+
+```r
+
+#tune model
+tune_out <- 
+    tune.svm(x = trainset[, -3], y = trainset[, 3], 
+             type = "C-classification", 
+             kernel = "polynomial", degree = 2, cost = 10^(-1:2), 
+             gamma = c(0.1, 1, 10), coef0 = c(0.1, 1, 10))
+
+#list optimal values
+tune_out$best.parameters$cost
+tune_out$best.parameters$gamma
+tune_out$best.parameters$coef0
+
+```
+
+Output:
+
+```bash
+
+> #tune model
+> tune_out <- 
+      tune.svm(x = trainset[, -3], y = trainset[, 3], 
+               type = "C-classification", 
+               kernel = "polynomial", degree = 2, cost = 10^(-1:2), 
+               gamma = c(0.1, 1, 10), coef0 = c(0.1, 1, 10))
+> 
+> #list optimal values
+> tune_out$best.parameters$cost
+[1] 0.1
+> tune_out$best.parameters$gamma
+[1] 10
+> tune_out$best.parameters$coef0
+[1] 0.1
+> 
+
+```
+***
+
+## Building and visualizing the tuned model
+
+```r
+
+#Build tuned model
+svm_model <- svm(y~ ., data = trainset, type = "C-classification", 
+                 kernel = "polynomial" , degree = 2, 
+                 cost = tune_out$best.parameters$cost, 
+                 gamma = tune_out$best.parameters$gamma, 
+                 coef0 = tune_out$best.parameters$coef0)
+
+#Calculate training and test accuracies
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot model
+plot(svm_model, trainset)
+
+```
+
+Output:
+
+
+```bash
+
+> #Build tuned model
+> svm_model <- svm(y~ ., data = trainset, type = "C-classification", 
+                   kernel = "polynomial" , degree = 2, 
+                   cost = tune_out$best.parameters$cost, 
+                   gamma = tune_out$best.parameters$gamma, 
+                   coef0 = tune_out$best.parameters$coef0)
+> 
+> #Calculate training and test accuracies
+> pred_train <- predict(svm_model, trainset)
+> mean(pred_train == trainset$y)
+[1] 0.9968153
+> pred_test <- predict(svm_model, testset)
+> mean(pred_test == testset$y)
+[1] 1
+> 
+> #plot model
+> plot(svm_model, trainset)
+> 
+
+```
+![ch3plot4.png](ch3plot4.png)
 
 
