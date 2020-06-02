@@ -60,7 +60,6 @@ scatter_plot<- ggplot(data = df, aes(x = x1, y = x2, color = y)) +
 scatter_plot 
 
 ```
-
 Output:
 
 ![ch4plot1](ch4plot1.png)
