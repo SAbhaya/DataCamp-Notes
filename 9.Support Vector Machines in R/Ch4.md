@@ -1,4 +1,4 @@
-# Radial Basis Function Kernels
+# Chapter 4 - Radial Basis Function Kernels
 ## Generating a complex dataset - part 1
 
 
@@ -64,4 +64,43 @@ Output:
 
 ![ch4plot1](ch4plot1.png)
 
+***
 
+## Linear SVM for complex dataset
+```r
+#build model
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear")
+
+#accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot model against testset
+plot(svm_model,testset)
+```
+Output:
+
+```bash
+> #build model
+> svm_model<- 
+      svm(y ~ ., data = trainset, type = "C-classification", 
+          kernel = "linear")
+> 
+> #accuracy
+> pred_train <- predict(svm_model, trainset)
+> mean(pred_train == trainset$y)
+[1] 0.5897756
+> pred_test <- predict(svm_model, testset)
+> mean(pred_test == testset$y)
+[1] 0.5959596
+> 
+> #plot model against testset
+> plot(svm_model,testset)
+> 
+
+```
+![ch4plot2](ch4plot2.png)
