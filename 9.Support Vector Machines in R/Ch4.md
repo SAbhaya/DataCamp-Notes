@@ -104,3 +104,48 @@ Output:
 
 ```
 ![ch4plot2](ch4plot2.png)
+
+## Quadratic SVM for complex dataset
+
+```r
+
+#build model
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "polynomial", degree = 2)
+
+#accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot model
+plot(svm_model, trainset)
+
+```
+
+Output:
+
+```bash
+> #build model
+> svm_model<- 
+      svm(y ~ ., data = trainset, type = "C-classification", 
+          kernel = "polynomial", degree = 2)
+> 
+> #accuracy
+> pred_train <- predict(svm_model, trainset)
+> mean(pred_train == trainset$y)
+[1] 0.8067332
+> pred_test <- predict(svm_model, testset)
+> mean(pred_test == testset$y)
+[1] 0.7979798
+> 
+> #plot model
+> plot(svm_model, trainset)
+> 
+
+```
+
+![ch4plot3](ch4plot3.png)
+
