@@ -1401,5 +1401,208 @@ Output:
 
 ***
 
+## Euclidean distance
+
+```r
+# Show the labels of the first 10 records
+mnist_sample$label[1:10]
+
+# Compute the Euclidean distance of the first 10 records
+distances <- dist(mnist_sample[1:10, -1])
+
+# Show the distances values
+distances
+
+# Plot the numeric matrix of the distances in a heatmap
+heatmap(as.matrix(distances), 
+    	Rowv = NA, symm = TRUE, 
+        labRow = mnist_sample$label[1:10], 
+        labCol = mnist_sample$label[1:10])
+
+```
+
+Output:
+
+```bash
+
+> # Show the labels of the first 10 records
+> mnist_sample$label[1:10]
+ [1] 5 0 7 0 9 3 4 1 2 6
+> 
+> # Compute the Euclidean distance of the first 10 records
+> distances <- dist(mnist_sample[1:10, -1])
+> 
+> # Show the distances values
+> distances
+          1        2        3        4        5        6        7        8
+2  2185.551                                                               
+3  2656.407 2869.979                                                      
+4  2547.027 2341.249 2936.772                                             
+5  2406.509 2959.108 1976.406 2870.928                                    
+6  2343.982 2759.681 2452.568 2739.470 2125.723                           
+7  2464.388 2784.158 2573.667 2870.918 2174.322 2653.703                  
+8  2149.872 2668.903 1999.892 2585.980 2067.044 2273.248 2407.962         
+9  2959.129 3209.677 2935.262 3413.821 2870.746 3114.508 2980.663 2833.447
+10 2728.657 3009.771 2574.752 2832.521 2395.589 2655.864 2464.301 2550.126
+          9
+2          
+3          
+4          
+5          
+6          
+7          
+8          
+9          
+10 2695.166
+> 
+> # Plot the numeric matrix of the distances in a heatmap
+> heatmap(as.matrix(distances), 
+      	Rowv = NA, symm = TRUE, 
+          labRow = mnist_sample$label[1:10], 
+          labCol = mnist_sample$label[1:10])
+> 
 
 
+```
+
+![ch1plot2](ch1plot2.png)
+
+***
+
+## Minkowski distance
+
+```r
+
+# Minkowski distance or order 3
+distances_3 <- dist(mnist_sample[1:10, -1], method = "minkowski", p = 3)
+distances_3
+heatmap(as.matrix(distances_3), 
+        Rowv = NA, symm = TRUE, 
+        labRow = mnist_sample$label[1:10], 
+        labCol = mnist_sample$label[1:10])
+
+# Minkowski distance of order 2
+distances_2 <- dist(mnist_sample[1:10, -1], method = "minkowski", p = 2)
+distances_2
+heatmap(as.matrix(distances_2), 
+        Rowv = NA, symm = TRUE, 
+        labRow = mnist_sample$label[1:10], 
+        labCol = mnist_sample$label[1:10])
+        
+ ```
+ 
+ Output:
+ 
+ ```bash
+ > # Minkowski distance or order 3
+> distances_3 <- dist(mnist_sample[1:10, -1], method = "minkowski", p = 3)
+> distances_3
+           1         2         3         4         5         6         7
+2  1002.6468                                                            
+3  1169.6470 1228.8295                                                  
+4  1127.4919 1044.9182 1249.6133                                        
+5  1091.3114 1260.3549  941.1654 1231.7432                              
+6  1063.7026 1194.1212 1104.2581 1189.9558  996.2687                    
+7  1098.4279 1198.8891 1131.4498 1227.7888 1005.7588 1165.4475          
+8  1006.9070 1169.4720  950.6812 1143.3503  980.6450 1056.1814 1083.2255
+9  1270.0240 1337.2068 1257.4052 1401.2461 1248.0777 1319.2768 1271.7095
+10 1186.9620 1268.1539 1134.0371 1219.1388 1084.5416 1166.9129 1096.3586
+           8         9
+2                     
+3                     
+4                     
+5                     
+6                     
+7                     
+8                     
+9  1236.9178          
+10 1133.2929 1180.7970
+> heatmap(as.matrix(distances_3), 
+          Rowv = NA, symm = TRUE, 
+          labRow = mnist_sample$label[1:10], 
+          labCol = mnist_sample$label[1:10])
+> 
+> # Minkowski distance of order 2
+> distances_2 <- dist(mnist_sample[1:10, -1], method = "minkowski", p = 2)
+> distances_2
+          1        2        3        4        5        6        7        8
+2  2185.551                                                               
+3  2656.407 2869.979                                                      
+4  2547.027 2341.249 2936.772                                             
+5  2406.509 2959.108 1976.406 2870.928                                    
+6  2343.982 2759.681 2452.568 2739.470 2125.723                           
+7  2464.388 2784.158 2573.667 2870.918 2174.322 2653.703                  
+8  2149.872 2668.903 1999.892 2585.980 2067.044 2273.248 2407.962         
+9  2959.129 3209.677 2935.262 3413.821 2870.746 3114.508 2980.663 2833.447
+10 2728.657 3009.771 2574.752 2832.521 2395.589 2655.864 2464.301 2550.126
+          9
+2          
+3          
+4          
+5          
+6          
+7          
+8          
+9          
+10 2695.166
+> heatmap(as.matrix(distances_2), 
+          Rowv = NA, symm = TRUE, 
+          labRow = mnist_sample$label[1:10], 
+          labCol = mnist_sample$label[1:10])
+> 
+ 
+ ```
+ 
+ ![ch1plot3](ch1plot3.png)
+ 
+ ***
+ 
+ ## KL divergence
+ 
+ ```r
+ # Get the first 10 records
+mnist_10 <- mnist_sample[1:10, -1]
+
+# Add 1 to avoid NaN when rescaling
+mnist_10_prep <- mnist_10 + 1
+
+# Compute the sums per row
+sums <- rowSums(mnist_10_prep)
+
+# Compute KL divergence
+distances <- distance(mnist_10_prep/sums, method = "kullback-leibler")
+heatmap(as.matrix(distances), 
+        Rowv = NA, symm = TRUE, 
+        labRow = mnist_sample$label[1:10], 
+        labCol = mnist_sample$label[1:10])
+ 
+```
+
+Output:
+
+
+```bash
+> # Get the first 10 records
+> mnist_10 <- mnist_sample[1:10, -1]
+> 
+> # Add 1 to avoid NaN when rescaling
+> mnist_10_prep <- mnist_10 + 1
+> 
+> # Compute the sums per row
+> sums <- rowSums(mnist_10_prep)
+> 
+> # Compute KL divergence
+> distances <- distance(mnist_10_prep/sums, method = "kullback-leibler")
+Metric: 'kullback-leibler' using unit: 'log'.
+> heatmap(as.matrix(distances), 
+          Rowv = NA, symm = TRUE, 
+          labRow = mnist_sample$label[1:10], 
+          labCol = mnist_sample$label[1:10])
+> 
+
+
+```
+
+ ![ch1plot4](ch1plot4.png)
+ 
+***
