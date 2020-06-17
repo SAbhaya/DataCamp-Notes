@@ -1606,3 +1606,57 @@ Metric: 'kullback-leibler' using unit: 'log'.
  ![ch1plot4](ch1plot4.png)
  
 ***
+
+## Generating PCA from MNIST sample
+
+```r
+# Get the principal components from PCA
+pca_output <- prcomp(mnist_sample[,-1])
+
+# Observe a summary of the output
+summary(pca_output)
+
+# Store the first two coordinates and the label in a data frame
+pca_plot <- data.frame(pca_x = pca_output$x[, "PC1"], pca_y = pca_output$x[, "PC2"], 
+                       label = as.factor(mnist_sample$label))
+
+# Plot the first two principal components using the true labels as color and shape
+ggplot(pca_plot, aes(x = pca_x, y = pca_y, color = label)) + 
+	ggtitle("PCA of MNIST sample") + 
+	geom_text(aes(label = label)) + 
+	theme(legend.position = "none")
+
+```
+
+Output:
+
+ ![ch1plot5](ch1plot5.png)
+
+## t-SNE output from MNIST sample
+
+```r
+
+# Explore the tsne_output structure
+str(tsne_output)
+
+# Have a look at the first records from the t-SNE output
+head(tsne_output)
+
+# Store the first two coordinates and the label in a data.frame
+tsne_plot <- data.frame(tsne_x = tsne_output$Y[, 1], tsne_y = tsne_output$Y[, 2], 
+                        label = as.factor(mnist_sample$label))
+
+# Plot the t-SNE embedding using the true labels as color and shape
+ggplot(tsne_plot, aes(x = tsne_x, y = tsne_y, color = label)) + 
+	ggtitle("T-Sne output") + 
+	geom_text(aes(label = label)) + 
+	theme(legend.position = "none")
+     
+```
+
+Output:
+
+ ![ch1plot6](ch1plot6.png)
+
+***
+
