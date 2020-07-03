@@ -97,3 +97,57 @@ plot(tsne_output$costs, type = "l")
 Output:
 
 ![ch2plot3](ch2plot3.png)
+
+***
+
+## Reproducing results
+
+### 1
+
+```r
+# Generate a three-dimensional t-SNE embedding without PCA
+tsne_output <- Rtsne(mnist_sample[, -1], PCA = FALSE, dims = 3)
+
+# Generate a new t-SNE embedding with the same hyper-parameter values
+tsne_output_new <- Rtsne(mnist_sample[, -1], PCA = FALSE, dims = 3)
+
+# Check if the two outputs are identical
+identical(tsne_output, tsne_output_new)
+
+```
+
+Output:
+
+```bash
+
+> identical(tsne_output, tsne_output_new)
+[1] FALSE
+
+```
+
+### 2
+
+```r
+
+# Generate a three-dimensional t-SNE embedding without PCA
+set.seed(1234)
+tsne_output <- Rtsne(mnist_sample[, -1], PCA = FALSE, dims = 3)
+
+# Generate a new t-SNE embedding with the same hyper-parameter values
+set.seed(1234)
+tsne_output_new <- Rtsne(mnist_sample[, -1], PCA = FALSE, dims = 3)
+
+# Check if the two outputs are identical
+identical(tsne_output, tsne_output_new)
+
+```
+
+Output:
+
+```bash
+identical(tsne_output, tsne_output_new)
+[1] TRUE
+
+```
+
+
