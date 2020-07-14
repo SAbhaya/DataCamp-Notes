@@ -301,5 +301,33 @@ Output:
 
 ## Perplexity of bigger MNIST dataset
 
+```r
+
+# Observe the K-L divergence costs with perplexity 5 and 50
+tsne_output_5$itercosts
+tsne_output_50$itercosts
+
+
+# Generate the data frame to visualize the embedding
+tsne_plot_5 <- data.frame(tsne_x = tsne_output_5$Y[,1], tsne_y = tsne_output_5$Y[,2], digit = as.factor(mnist_10k$label))
+tsne_plot_50 <- data.frame(tsne_x = tsne_output_50$Y[,1], tsne_y = tsne_output_50$Y[,2], digit = as.factor(mnist_10k$label))
+
+# Plot the obtained embeddings
+ggplot(tsne_plot_5, aes(x = tsne_x, y = tsne_y, color = digit)) + 
+	ggtitle("MNIST t-SNE with 1300 iter and Perplexity=5") + geom_text(aes(label = digit)) + 
+	theme(legend.position="none")
+ggplot(tsne_plot_50, aes(x = tsne_x, y = tsne_y, color = digit)) + 
+	ggtitle("MNIST t-SNE with 1300 iter and Perplexity=50") + geom_text(aes(label = digit)) + 
+	theme(legend.position="none")
+	
+```
+
+Output:
+
+![ch2plot41](ch2plot41.png)
+![ch2plot4](ch2plot4.png)
+
+***
+
 
 
