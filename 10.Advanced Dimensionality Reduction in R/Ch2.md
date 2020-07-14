@@ -329,5 +329,120 @@ Output:
 
 ***
 
+## Plotting spatial distribution of true classes
+
+```r
+
+# Prepare the data.frame
+tsne_plot <- data.frame(tsne_x = tsne$Y[1:5000, 1], 
+                        tsne_y = tsne$Y[1:5000, 2], 
+                        digit = as.factor(mnist_10k[1:5000, ]$label))
+
+# Plot the obtained embedding
+ggplot(tsne_plot, aes(x = tsne_x, y = tsne_y, color = digit)) + 
+	ggtitle("MNIST embedding of the first 5K digits") + 
+	geom_text(aes(label = digit)) + 
+	theme(legend.position="none")
+```
+
+Output:
+
+![ch2plot5](ch2plot5.png)
+
+***
+
+## Computing the centroids of each class
+
+```r
+
+# Get the first 5K records and set the column names
+dt_prototypes <- as.data.table(tsne$Y[1:5000,])
+setnames(dt_prototypes, c("X","Y"))
+
+# Paste the label column as factor
+dt_prototypes[, label := as.factor(mnist_10k[1:5000,]$label)]
+
+# Compute the centroids per label
+dt_prototypes[, mean_X := mean(X), by = label]
+dt_prototypes[, mean_Y := mean(Y), by = label]
+
+# Get the unique records per label
+dt_prototypes <- unique(dt_prototypes, by = "label")
+dt_prototypes
+
+```
+
+Output:
+
+```bash
+> # Get the first 5K records and set the column names
+> dt_prototypes <- as.data.table(tsne$Y[1:5000,])
+> setnames(dt_prototypes, c("X","Y"))
+> 
+> # Paste the label column as factor
+> dt_prototypes[, label := as.factor(mnist_10k[1:5000,]$label)]
+               X          Y label
+   1:  41.549765   5.780428     5
+   2:  26.372926  54.898029     0
+   3: -13.484036 -31.270136     7
+   4:  18.223526  70.132553     0
+   5: -41.947237  10.864295     9
+  ---                            
+4996:  21.831396  -7.387260     3
+4997:  -5.811738 -28.687252     8
+4998: -23.905475  -6.972750     7
+4999:  -3.097207 -28.534496     8
+5000:  35.523868 -47.112896     1
+> 
+> # Compute the centroids per label
+> dt_prototypes[, mean_X := mean(X), by = label]
+               X          Y label     mean_X
+   1:  41.549765   5.780428     5  27.860966
+   2:  26.372926  54.898029     0   1.741236
+   3: -13.484036 -31.270136     7 -28.594619
+   4:  18.223526  70.132553     0   1.741236
+   5: -41.947237  10.864295     9 -34.547234
+  ---                                       
+4996:  21.831396  -7.387260     3  10.308656
+4997:  -5.811738 -28.687252     8   1.218819
+4998: -23.905475  -6.972750     7 -28.594619
+4999:  -3.097207 -28.534496     8   1.218819
+5000:  35.523868 -47.112896     1  11.347286
+> dt_prototypes[, mean_Y := mean(Y), by = label]
+               X          Y label     mean_X     mean_Y
+   1:  41.549765   5.780428     5  27.860966  16.394777
+   2:  26.372926  54.898029     0   1.741236  58.046588
+   3: -13.484036 -31.270136     7 -28.594619 -27.039661
+   4:  18.223526  70.132553     0   1.741236  58.046588
+   5: -41.947237  10.864295     9 -34.547234   2.124442
+  ---                                                  
+4996:  21.831396  -7.387260     3  10.308656  -1.002779
+4997:  -5.811738 -28.687252     8   1.218819 -21.361473
+4998: -23.905475  -6.972750     7 -28.594619 -27.039661
+4999:  -3.097207 -28.534496     8   1.218819 -21.361473
+5000:  35.523868 -47.112896     1  11.347286 -51.190898
+> 
+> # Get the unique records per label
+> dt_prototypes <- unique(dt_prototypes, by = "label")
+> dt_prototypes
+             X          Y label     mean_X     mean_Y
+ 1:  41.549765   5.780428     5  27.860966  16.394777
+ 2:  26.372926  54.898029     0   1.741236  58.046588
+ 3: -13.484036 -31.270136     7 -28.594619 -27.039661
+ 4: -41.947237  10.864295     9 -34.547234   2.124442
+ 5:  41.336890  18.065276     3  10.308656  -1.002779
+ 6: -71.979671  -3.515796     4 -50.002302  13.887478
+ 7:  -1.170577 -62.892903     1  11.347286 -51.190898
+ 8:  42.705877 -22.035304     2  43.774833 -13.415637
+ 9:  -9.489321  27.074411     6   9.676629  33.825619
+10:  -9.833089  -8.890580     8   1.218819 -21.361473
+> 
+
+
+```
+***
+
+## Computing similarities of digits 1 and 0
+
 
 
