@@ -444,5 +444,112 @@ Output:
 
 ## Computing similarities of digits 1 and 0
 
+```r
+
+# Store the last 5000 records in distances and set column names
+distances <- as.data.table(tsne$Y[5001:10000,])
+setnames(distances, c("X","Y"))
+
+# Paste the true label
+distances[, label := mnist_10k[5001:10000,]$label]
+
+# Filter only those labels that are 1 or 0 
+distances_filtered <- distances[label == 1 | label == 0]
+
+# Compute Euclidean distance to prototype of digit 1
+distances_filtered[, dist_1 := sqrt( (X - dt_prototypes[label == 1,]$mean_X)^2 + 
+                             (Y - dt_prototypes[label == 1,]$mean_Y)^2)]
+			     
+```
+
+Output:
+
+```bash
+
+> # Store the last 5000 records in distances and set column names
+> distances <- as.data.table(tsne$Y[5001:10000,])
+> setnames(distances, c("X","Y"))
+> 
+> # Paste the true label
+> distances[, label := mnist_10k[5001:10000,]$label]
+               X          Y label
+   1: -64.733133   3.055153     4
+   2:  13.202256  17.092550     5
+   3: -67.948247  11.958676     4
+   4:  -9.359393 -16.821196     8
+   5: -20.875669 -36.027660     7
+  ---                            
+4996:  48.424642 -40.756637     1
+4997:   2.511128  -4.759265     3
+4998: -35.424914  14.805049     4
+4999: -38.612535 -45.625567     7
+5000: -32.502894 -16.535629     7
+> 
+> # Filter only those labels that are 1 or 0
+> distances_filtered <- distances[label == 1 | label == 0]
+> 
+> # Compute Euclidean distance to prototype of digit 1
+> distances_filtered[, dist_1 := sqrt( (X - dt_prototypes[label == 1,]$mean_X)^2 + 
+                               (Y - dt_prototypes[label == 1,]$mean_Y)^2)]
+               X         Y label     dist_1
+   1: -21.762634 -56.58124     1  33.545828
+   2:   3.958096 -57.88021     1   9.967295
+   3:  -9.336319 -45.60399     1  21.424870
+   4:   7.155539  55.93102     0 107.203899
+   5:   7.220357  60.24284     0 111.510131
+  ---                                      
+1104:   8.205692 -46.80463     1   5.395274
+1105:   6.007800 -47.92865     1   6.257183
+1106:  -3.739457 -56.71242     1  16.065397
+1107:   9.756465  45.81815     0  97.022093
+1108:  48.424642 -40.75664     1  38.517583
+> 
+
+```
+
+***
+## Plotting similarities of digits 1 and 0
+
+```r
+
+# Compute the basic statistics of distances from records of class 1
+summary(distances[label == 1]$dist_1)
+
+# Compute the basic statistics of distances from records of class 0
+summary(distances[label == 0]$dist_1)
+
+# Plot the histogram of distances of each class
+ggplot(distances, aes(x = dist_1, fill = as.factor(label))) +
+  	geom_histogram(binwidth = 5, alpha = .5, position = "identity", show.legend = FALSE) + 
+  	ggtitle("Distribution of Euclidean distance 1 vs 0")
+
+```
+
+Output:
+
+```bash
+
+> # Compute the basic statistics of distances from records of class 1
+> summary(distances[label == 1]$dist_1)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.4361 13.1801 24.6109 24.5052 34.9162 61.4292
+> 
+> # Compute the basic statistics of distances from records of class 0
+> summary(distances[label == 0]$dist_1)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  55.18   87.15  100.53   99.48  112.45  131.23
+> 
+> # Plot the histogram of distances of each class
+> ggplot(distances, aes(x = dist_1, fill = as.factor(label))) +
+    	geom_histogram(binwidth = 5, alpha = .5, position = "identity", show.legend = FALSE) + 
+    	ggtitle("Distribution of Euclidean distance 1 vs 0")
+> 
+
+```
+
+![ch2plot6](ch2plot6.png)
+
+
+
 
 
