@@ -550,6 +550,7 @@ Output:
 ![ch2plot6](ch2plot6.png)
 
 
+*End of Chapter 2*
 
 
 
