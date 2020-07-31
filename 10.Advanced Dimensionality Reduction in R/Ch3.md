@@ -100,3 +100,30 @@ Output:
 
 ![ch3plot4](ch3plot4.png)
 
+***
+
+## Training a random forest with embedding features
+
+```r
+
+# Fix the seed
+set.seed(1234)
+
+# Train a random forest
+rf_model_tsne <- randomForest(x=train_tsne_x, y=train_tsne_y, ntree = 100)
+
+# Plot the error evolution
+plot(rf_model_tsne)
+
+# Plot the variable importance
+varImpPlot(rf_model_tsne)
+
+```
+
+Output:
+
+![ch3plot5](ch3plot5.png)
+![ch3plot6](ch3plot6.png)
+
+***
+
