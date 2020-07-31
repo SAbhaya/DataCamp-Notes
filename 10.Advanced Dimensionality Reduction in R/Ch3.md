@@ -48,4 +48,28 @@ creditcard_train <- rbind(creditcard_pos, creditcard_neg_bal)
 
 ***
 
-## 
+## Training a random forest with original features
+
+'''r
+
+# Fix the seed
+set.seed(1234)
+
+# Separate x and y sets
+train_x <- creditcard_train[,-31]
+train_y <- creditcard_train$Class
+
+# Train a random forests
+rf_model <- randomForest(x= train_x, y= train_y, ntree = 100)
+
+# Plot the error evolution and variable importance
+plot(rf_model, main = "Error evolution vs number of trees")
+varImpPlot(rf_model, main = "Variable importance")
+
+```
+
+Output:
+
+![ch3plot2](ch3plot2.png)
+![ch3plot3](ch3plot3.png)
+
