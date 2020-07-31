@@ -50,7 +50,7 @@ creditcard_train <- rbind(creditcard_pos, creditcard_neg_bal)
 
 ## Training a random forest with original features
 
-'''r
+```r
 
 # Fix the seed
 set.seed(1234)
