@@ -170,5 +170,40 @@ Output:
 
 ***
 
+## Predicting data using embedding random forest
 
+```r
+
+# Predict on the test set using the random forest generated with t-SNE features
+pred_rf <- predict(rf_model_tsne, test_x, type = "prob")
+
+# Plot a probability distibution of the target class
+hist(pred_rf[,2])
+
+# Compute the area under the curve
+pred <- prediction(pred_rf[,2] , creditcard_test$Class)
+perf <- performance(pred, measure = "auc") 
+perf@y.values
+
+```
+
+Output:
+
+```bash
+# Predict on the test set using the random forest generated with t-SNE features
+pred_rf <- predict(rf_model_tsne, test_x, type = "prob")
+
+# Plot a probability distibution of the target class
+hist(pred_rf[,2])
+
+# Compute the area under the curve
+pred <- prediction(pred_rf[,2] , creditcard_test$Class)
+perf <- performance(pred, measure = "auc") 
+perf@y.values
+
+```
+
+![ch3plot8](ch3plot8.png)
+
+***
 
