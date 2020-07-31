@@ -73,3 +73,30 @@ Output:
 ![ch3plot2](ch3plot2.png)
 ![ch3plot3](ch3plot3.png)
 
+***
+## Computing and visualising the t-SNE embedding
+
+```r
+
+# Set the seed
+set.seed(1234)
+
+# Generate the t-SNE embedding 
+tsne_output <- Rtsne(as.matrix(creditcard_train[, -31]), check_duplicates = FALSE, PCA = FALSE)
+
+# Generate a data frame to plot the result
+tsne_plot <- data.frame(tsne_x = tsne_output$Y[,1],
+                        tsne_y = tsne_output$Y[,2],
+                        Class = creditcard_train$Class)
+
+# Plot the embedding usign ggplot and the label
+ggplot(tsne_plot, aes(x = tsne_x, y = tsne_y, color = Class)) + 
+  ggtitle("t-SNE of credit card fraud train set") + 
+  geom_text(aes(label = Class)) + theme(legend.position = "none")
+  
+```
+
+Output:
+
+![ch3plot4](ch3plot4.png)
+
