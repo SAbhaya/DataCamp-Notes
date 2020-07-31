@@ -127,3 +127,48 @@ Output:
 
 ***
 
+## Predicting data using original features
+
+```r
+
+# Predict on the test set using the random forest 
+pred_rf <- predict(rf_model, creditcard_test, type = "prob")
+
+# Plot a probability distibution of the target class
+hist(pred_rf[,2])
+
+# Compute the area under the curve
+pred <- prediction(pred_rf[,2], creditcard_test$Class)
+perf <- performance(pred, measure = "auc") 
+perf@y.values
+
+```
+
+Output:
+
+```bash
+
+> # Predict on the test set using the random forest
+> pred_rf <- predict(rf_model, creditcard_test, type = "prob")
+> 
+> # Plot a probability distibution of the target class
+> hist(pred_rf[,2])
+> 
+> # Compute the area under the curve
+> pred <- prediction(pred_rf[,2], creditcard_test$Class)
+> perf <- performance(pred, measure = "auc")
+> perf@y.values
+[[1]]
+[1] 0.9801234
+> 
+
+
+```
+
+![ch3plot7](ch3plot7.png)
+
+
+***
+
+
+
