@@ -97,5 +97,56 @@ Output:
 
 ***
 
+## Reducing data with GLRM
 
+```r
+
+# Start a connection with the h2o cluster
+h2o.init()
+
+# Store the data into h2o cluster
+fashion_mnist.hex <- as.h2o(fashion_mnist, "fashion_mnist.hex")
+
+# Launch a GLRM model over fashion_mnist data
+model_glrm <- h2o.glrm(training_frame = fashion_mnist.hex,
+                       cols = 2:ncol(fashion_mnist), 
+                       k = 2,
+                       seed = 123,
+                       max_iterations = 100)
+
+# Plotting the convergence
+plot(model_glrm)
+
+```
+
+Output:
+
+![ch4plot2](ch4plot2.png)
+
+***
+
+## Improving model convergence
+
+```r
+
+# Start a connection with the h2o cluster
+h2o.init()
+
+# Store the data into h2o cluster
+fashion_mnist.hex <- as.h2o(fashion_mnist, "fashion_mnist.hex")
+
+# Launch a GLRM model with normalized fashion_mnist data  
+model_glrm <- h2o.glrm(training_frame = fashion_mnist.hex, transform = "NORMALIZE",
+                       cols = 2:ncol(fashion_mnist), 
+                       k = 2, 
+                       seed = 123,
+                       max_iterations = 100)
+
+# Plotting the convergence
+plot(model_glrm)
+
+```
+
+Output:
+![ch4plot3](ch4plot3.png)
 
