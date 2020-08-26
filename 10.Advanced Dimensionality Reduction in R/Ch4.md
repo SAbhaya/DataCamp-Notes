@@ -279,3 +279,127 @@ Output:
 
 ## Imputing missing data
 
+```r
+
+# Store the input data in h2o
+fashion_mnist_miss.hex <- as.h2o(fashion_mnist_miss, "fashion_mnist_miss.hex")
+
+# Build a GLRM model
+model_glrm <- h2o.glrm(training_frame = fashion_mnist_miss.hex,
+                       transform = "NORMALIZE",
+                       max_iterations = 100,
+                       k = 2)
+
+# Impute missing values
+fashion_pred <- predict(model_glrm, fashion_mnist_miss.hex)
+
+# Observe the statistics of the first 5 pixels
+summary(fashion_pred[, 1:5])
+
+```
+
+Output: trunc
+
+```bash
+> summary(fashion_pred[, 1:5])
+Warning message: Approximated quantiles computed! If you are interested in exact quantiles, please pass the `exact_quantiles=TRUE` parameter.
+ reconstr_pixel2      reconstr_pixel3      reconstr_pixel4     
+ Min.   :-2.443e-03   Min.   :-1.412e-03   Min.   :-0.0020231  
+ 1st Qu.:-1.390e-03   1st Qu.:-4.209e-04   1st Qu.:-0.0005844  
+ Median :-9.528e-06   Median : 6.590e-05   Median : 0.0001209  
+ Mean   : 2.510e-05   Mean   : 4.483e-06   Mean   : 0.0000280  
+ 3rd Qu.: 1.326e-03   3rd Qu.: 4.831e-04   3rd Qu.: 0.0006436  
+ Max.   : 3.139e-03   Max.   : 1.010e-03   Max.   : 0.0012804  
+ reconstr_pixel5      reconstr_pixel6     
+ Min.   :-4.275e-03   Min.   :-0.0111321  
+ 1st Qu.:-2.078e-03   1st Qu.:-0.0053797  
+ Median :-2.773e-04   Median :-0.0010374  
+ Mean   :-2.891e-05   Mean   :-0.0001281  
+ 3rd Qu.: 1.766e-03   3rd Qu.: 0.0045755  
+ Max.   : 6.150e-03   Max.   : 0.0167925
+
+```
+***
+
+## Training a random forest with original data
+
+```r
+
+# Get the starting timestamp
+time_start <- proc.time()
+
+# Train the random forest
+rf_model <- randomForest(x = fashion_mnist[,-1], y = fashion_mnist$label, ntree = 20)
+
+# Get the end timestamp
+time_end <- timetaken(time_start)
+
+# Show the error and the time
+rf_model$err.rate[20]
+time_end
+
+```
+
+Output:
+
+```bash
+> # Get the starting timestamp
+> time_start <- proc.time()
+> 
+> # Train the random forest
+> rf_model <- randomForest(x = fashion_mnist[,-1], y = fashion_mnist$label, ntree = 20)
+> 
+> # Get the end timestamp
+> time_end <- timetaken(time_start)
+> 
+> # Show the error and the time
+> rf_model$err.rate[20]
+[1] 0.274
+> time_end
+[1] "0.487sec"
+> 
+
+```
+***
+
+## Training a random forest with compressed data
+
+```r
+# Get the starting timestamp
+time_start <- proc.time()
+
+# Train the random forest
+rf_model <- randomForest(x = train_x y = train_y, ntree = 500)
+
+# Get the end timestamp
+time_end <- timetaken(time_start)
+
+# Show the error and the time
+rf_model$err.rate[500]
+time_end
+
+```
+
+Output:
+
+```bash
+> # Get the starting timestamp
+> time_start <- proc.time()
+> 
+> # Train the random forest
+> rf_model <- randomForest(x = train_x, y = train_y, ntree = 500)
+> 
+> # Get the end timestamp
+> time_end <- timetaken(time_start)
+> 
+> # Show the error and the time
+> rf_model$err.rate[500]
+[1] 0.302
+> time_end
+[1] "0.378sec"
+> 
+
+```
+***
+
+*End of Chapter 4*
