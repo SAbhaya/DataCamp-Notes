@@ -150,3 +150,132 @@ plot(model_glrm)
 Output:
 ![ch4plot3](ch4plot3.png)
 
+## Visualizing the output of GLRM
+
+```r
+# Dimension of X_matrix
+dim(X_matrix)
+
+# First records of X_matrix
+head(X_matrix)
+
+# Plot the records in the new two dimensional space
+ggplot(as.data.table(X_matrix), aes(x= Arch1, y = Arch2, color = fashion_mnist$label)) + 
+	ggtitle("Fashion Mnist GLRM Archetypes") + 
+	geom_text(aes(label = fashion_mnist$label)) + 
+	theme(legend.position="none")
+
+```
+
+Output:
+
+```bash
+> # Dimension of X_matrix
+> dim(X_matrix)
+[1] 1000    2
+> 
+> # First records of X_matrix
+> head(X_matrix)
+         Arch1      Arch2
+1:  0.05700343 -0.1639712
+2: -0.38300397 -0.4796628
+3: -0.04673850  0.5104395
+4:  0.50123905 -0.3073842
+5:  0.12972227  0.1678998
+6: -0.41769480 -0.3275776
+> 
+> # Plot the records in the new two dimensional space
+> ggplot(as.data.table(X_matrix), aes(x= Arch1, y = Arch2, color = fashion_mnist$label)) + 
+  	ggtitle("Fashion Mnist GLRM Archetypes") + 
+  	geom_text(aes(label = fashion_mnist$label)) + 
+  	theme(legend.position="none")
+> 
+```
+
+![ch4plot4](ch4plot4.png)
+
+***
+
+## Visualizing the prototypes
+
+```r
+# Store the label of each record and compute the centroids
+X_matrix[, label := as.numeric(fashion_mnist$label)]
+X_matrix[, mean_x := mean(Arch1), by = label]
+X_matrix[, mean_y := mean(Arch2), by = label]
+
+# Get one record per label and create a vector with class names
+X_mean <- unique(X_matrix, by = "label")
+label_names <- c("T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot")
+
+# Plot the centroids
+ggplot(X_mean, aes(x = mean_x, y = mean_y, color = as.factor(label))) + 
+	ggtitle("Fashion Mnist GLRM class centroids") + 
+	geom_text(aes(label = label_names[label])) +
+	theme(legend.position = "none")
+```
+
+Output:
+
+```bash
+> # Store the label of each record and compute the centroids
+> X_matrix[, label := as.numeric(fashion_mnist$label)]
+            Arch1      Arch2 label      mean_x     mean_y
+   1:  0.05700343 -0.1639712     7  0.09661581 -0.1668699
+   2: -0.38300397 -0.4796628     2 -0.37821659 -0.3690818
+   3: -0.04673850  0.5104395     6 -0.30353511  0.3915218
+   4:  0.50123905 -0.3073842     5  0.34921720 -0.1954345
+   5:  0.12972227  0.1678998     3  0.36277255 -0.1484523
+  ---                                                    
+ 996:  0.36938926 -0.2314351     5  0.34921720 -0.1954345
+ 997: -0.40357915 -0.3937227     2 -0.37821659 -0.3690818
+ 998:  0.08617987 -0.4264461     5  0.34921720 -0.1954345
+ 999:  0.30318054  0.2693688     9  0.22435820  0.2529673
+1000:  0.73234498 -0.1756952     3  0.36277255 -0.1484523
+> X_matrix[, mean_x := mean(Arch1), by = label]
+            Arch1      Arch2 label      mean_x     mean_y
+   1:  0.05700343 -0.1639712     7  0.09661581 -0.1668699
+   2: -0.38300397 -0.4796628     2 -0.37821659 -0.3690818
+   3: -0.04673850  0.5104395     6 -0.30353511  0.3915218
+   4:  0.50123905 -0.3073842     5  0.34921720 -0.1954345
+   5:  0.12972227  0.1678998     3  0.36277255 -0.1484523
+  ---                                                    
+ 996:  0.36938926 -0.2314351     5  0.34921720 -0.1954345
+ 997: -0.40357915 -0.3937227     2 -0.37821659 -0.3690818
+ 998:  0.08617987 -0.4264461     5  0.34921720 -0.1954345
+ 999:  0.30318054  0.2693688     9  0.22435820  0.2529673
+1000:  0.73234498 -0.1756952     3  0.36277255 -0.1484523
+> X_matrix[, mean_y := mean(Arch2), by = label]
+            Arch1      Arch2 label      mean_x     mean_y
+   1:  0.05700343 -0.1639712     7  0.09661581 -0.1668699
+   2: -0.38300397 -0.4796628     2 -0.37821659 -0.3690818
+   3: -0.04673850  0.5104395     6 -0.30353511  0.3915218
+   4:  0.50123905 -0.3073842     5  0.34921720 -0.1954345
+   5:  0.12972227  0.1678998     3  0.36277255 -0.1484523
+  ---                                                    
+ 996:  0.36938926 -0.2314351     5  0.34921720 -0.1954345
+ 997: -0.40357915 -0.3937227     2 -0.37821659 -0.3690818
+ 998:  0.08617987 -0.4264461     5  0.34921720 -0.1954345
+ 999:  0.30318054  0.2693688     9  0.22435820  0.2529673
+1000:  0.73234498 -0.1756952     3  0.36277255 -0.1484523
+> 
+> # Get one record per label and create a vector with class names
+> X_mean <- unique(X_matrix, by = "label")
+> label_names <- c("T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot")
+> 
+> # Plot the centroids
+> ggplot(X_mean, aes(x = mean_x, y = mean_y, color = as.factor(label))) + 
+  	ggtitle("Fashion Mnist GLRM class centroids") + 
+  	geom_text(aes(label = label_names[label])) +
+  	theme(legend.position = "none")
+> 
+
+```
+
+![ch4plot5](ch4plot5.png)
+
+
+***
+
+## Imputing missing data
+
