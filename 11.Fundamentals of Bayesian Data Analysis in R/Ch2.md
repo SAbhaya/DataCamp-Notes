@@ -164,7 +164,84 @@ Output:
 
 ***
 
+## Update a Bayesian model with data
+
+You ran your ad campaign, and 13 people clicked and visited your site when the ad was shown a 100 times. 
+
+```r
+
+# Create the prior data frame
+prior <- data.frame(proportion_clicks, n_visitors)
+
+# Examine the prior data frame
+head(prior)
+
+# Create the posterior data frame
+posterior <- prior[prior$n_visitors == 13, ]
+
+# Visualize posterior proportion clicks
+hist(posterior$proportion_clicks)
+
+```
+
+Output:
+![ch2plot4](ch2plot3.png)
 
 
+## How many visitors could your site get (3)?
 
+```r
+
+# Assign posterior to a new variable called prior
+prior <- posterior
+
+# Take a look at the first rows in prior
+head(prior)
+
+# Replace prior$n_visitors with a new sample and visualize the result
+n_samples <-  nrow(prior)
+n_ads_shown <- 100
+prior$n_visitors <- rbinom(n_samples, size = n_ads_shown, prob = prior$proportion_clicks)
+hist(prior$n_visitors)
+
+# Calculate the probability that you will get 5 or more visitors
+sum(prior$n_visitors >= 5)/length(prior$n_visitors)
+
+```
+
+Output:
+
+```bash
+> # Assign posterior to a new variable called prior
+> prior <- posterior
+> 
+> # Take a look at the first rows in prior
+> head(prior)
+    proportion_clicks n_visitors
+28          0.1188284         13
+58          0.1506616         13
+100         0.1023011         13
+115         0.1441193         13
+180         0.1163500         13
+223         0.1456789         13
+> 
+> # Replace prior$n_visitors with a new sample and visualize the result
+> n_samples <-  nrow(prior)
+> n_ads_shown <- 100
+> prior$n_visitors <- rbinom(n_samples, size = n_ads_shown, prob = prior$proportion_clicks)
+> hist(prior$n_visitors)
+> 
+> # Calculate the probability that you will get 5 or more visitors
+> sum(prior$n_visitors >= 5)/length(prior$n_visitors)
+[1] 0.9873338
+> 
+
+```
+
+
+![ch2plot5](ch2plot5.png)
+
+***
+
+*End of Chapter 2*
 
