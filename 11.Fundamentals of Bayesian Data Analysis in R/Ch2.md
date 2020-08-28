@@ -1,4 +1,4 @@
-# How does Bayesian inference work?
+# Chapter 2 - How does Bayesian inference work?
 ## Take a generative model for a spin 
 
 ### 1
@@ -114,6 +114,57 @@ Ouput:
 > 
 
 ```
+
+***
+
+## How many visitors could your site get (1)?
+
+```r
+
+# Fill in the parameters
+n_samples <- 100000
+n_ads_shown <- 100
+proportion_clicks <- 0.1
+n_visitors <- rbinom(n_samples, size = n_ads_shown, 
+                     prob = proportion_clicks)
+
+# Visualize n_visitors
+hist(n_visitors)
+
+```
+Output:
+
+
+![ch2plot1](ch2plot1.png)
+
+***
+
+## Adding a prior to the model
+
+```r
+n_samples <- 100000
+n_ads_shown <- 100
+proportion_clicks <- runif(n_samples, min = 0.0, max = 0.2)
+n_visitors <- rbinom(n = n_samples, size = n_ads_shown, prob = proportion_clicks)
+
+# Visualize proportion clicks
+hist(proportion_clicks)
+
+# Visualize n_visitors
+hist(n_visitors)
+
+```
+
+Output:
+
+![ch2plot2](ch2plot2.png)
+
+![ch2plot3](ch2plot3.png)
+
+
+***
+
+
 
 
 
