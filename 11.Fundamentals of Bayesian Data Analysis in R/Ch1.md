@@ -1,4 +1,4 @@
-# Fundamentals of Bayesian Data Analysis in R
+# Chapter 1 - Fundamentals of Bayesian Data Analysis in R
 
 ## What is Bayesian Data Analysis?
 
