@@ -202,6 +202,7 @@ hist(posterior$text_profit)
 Output:
 
 ![ch3plot8](ch3plot8.png)
+
 ![ch3plot9](ch3plot9.png)
 
 ***
