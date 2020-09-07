@@ -303,3 +303,6 @@ Output:
 
 
 ![ch3plot13](ch3plot13.png)
+
+
+*End of Chapter 3*
