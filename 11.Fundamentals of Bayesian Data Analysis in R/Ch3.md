@@ -180,4 +180,70 @@ Output:
 
 ***
 
+## A small decision analysis 1
+
+```r
+visitor_spend <- 2.53
+video_cost <- 0.25
+text_cost <- 0.05
+
+# Add the column posterior$video_profit
+posterior$video_profit <- posterior$video_prop * visitor_spend - video_cost
+
+# Add the column posterior$text_profit
+posterior$text_profit <- posterior$text_prop * visitor_spend - text_cost
+
+# Visualize the video_profit and text_profit columns
+hist(posterior$video_profit)
+hist(posterior$text_profit)
+
+```
+
+Output:
+
+![ch3plot8](ch3plot8.png)
+![ch3plot9](ch3plot9.png)
+
+***
+
+## A small decision analysis 2
+
+```r
+
+# Add the column posterior$profit_diff
+posterior$profit_diff <- posterior$video_profit - posterior$text_profit
+
+# Visualize posterior$profit_diff
+hist(posterior$profit_diff)
+
+# Calculate a "best guess" for the difference in profits
+median(posterior$profit_diff)
+
+# Calculate the probability that text ads are better than video ads
+mean(posterior$profit_diff < 0 )
+
+```
+
+Output:
+
+```bash
+> # Add the column posterior$profit_diff
+> posterior$profit_diff <- posterior$video_profit - posterior$text_profit
+> 
+> # Visualize posterior$profit_diff
+> hist(posterior$profit_diff)
+> 
+> # Calculate a "best guess" for the difference in profits
+> median(posterior$profit_diff)
+[1] -0.03233297
+> 
+> # Calculate the probability that text ads are better than video ads
+> mean(posterior$profit_diff < 0 )
+[1] 0.6288889
+> 
+
+```
+![ch3plot10](ch3plot10.png)
+
+***
 
