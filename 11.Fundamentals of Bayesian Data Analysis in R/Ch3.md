@@ -133,3 +133,51 @@ Output:
 
 ***
 
+## Calculating the posterior difference
+
+
+```r
+
+posterior <- data.frame(video_prop = posterior_video$proportion_clicks[1:4000],
+                        text_prop = posterior_text$proportion_click[1:4000])
+
+# Calculate the posterior difference: video_prop - text_prop
+posterior$prop_diff <- posterior$video_prop - posterior$text_prop 
+
+# Visualize prop_diff
+hist(posterior$prop_diff)
+
+# Calculate the median of prop_diff
+median(posterior$prop_diff)
+
+# Calculate the proportion
+mean(posterior$prop_diff > 0) 
+
+```
+
+Output:
+
+```bash
+> posterior <- data.frame(video_prop = posterior_video$proportion_clicks[1:4000],
+                          text_prop = posterior_text$proportion_click[1:4000])
+> 
+> # Calculate the posterior difference: video_prop - text_prop
+> posterior$prop_diff <- posterior$video_prop - posterior$text_prop
+> 
+> # Visualize prop_diff
+> hist(posterior$prop_diff)
+> 
+> # Calculate the median of prop_diff
+> median(posterior$prop_diff)
+[1] 0.06656075
+> 
+> # Calculate the proportion
+> mean(posterior$prop_diff > 0)
+[1] 0.95375
+
+```
+![ch3plot7](ch3plot7.png)
+
+***
+
+
