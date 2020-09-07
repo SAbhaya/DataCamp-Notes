@@ -248,3 +248,58 @@ Output:
 
 ***
 
+## The Poisson distribution
+
+```r
+
+# Simulate from a Poisson distribution and visualize the result
+x <- rpois(n = 10000, lambda = 11.5)
+hist(x)
+
+# Calculate the probability of break-even
+mean( x >= 15)
+
+```
+
+Output:
+
+```bash
+> # Simulate from a Poisson distribution and visualize the result
+> x <- rpois(n = 10000, lambda = 11.5)
+> hist(x)
+> # Simulate from a Poisson distribution and visualize the result
+> x <- rpois(n = 10000, lambda = 11.5)
+> hist(x)
+> 
+> # Calculate the probability of break-even
+> mean( x >= 15)
+[1] 0.1884
+> 
+
+```
+![ch3plot11](ch3plot11.png)
+
+***
+
+## Clicks per day instead of clicks per ad
+
+```r
+# Change the model according to instructions
+n_draws <- 100000
+mean_clicks <- runif(n_draws, min = 0, max = 80)
+n_visitors <- rpois(n = n_draws, mean_clicks)
+
+prior <- data.frame(mean_clicks, n_visitors)
+posterior <- prior[prior$n_visitors == 19, ]
+
+# Visualize mean_clicks
+hist(prior$mean_clicks)
+hist(posterior$mean_clicks)
+```
+
+Output:
+
+![ch3plot12](ch3plot12.png)
+
+
+![ch3plot13](ch3plot13.png)
