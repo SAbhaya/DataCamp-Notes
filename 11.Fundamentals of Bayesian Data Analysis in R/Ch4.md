@@ -112,3 +112,55 @@ Output:
 Looking at the plot, what value of proportion_clicks seems to give the maximum likelihood to produce n_visitors = 13?
 </br>
 proportion_clicks = 0.13
+
+***
+
+## Calculating a joint distribution
+
+```r
+
+n_ads_shown <- 100
+proportion_clicks <- seq(0, 1, by = 0.01)
+n_visitors <- seq(0, 100, by = 1)
+pars <- expand.grid(proportion_clicks = proportion_clicks,
+                    n_visitors = n_visitors)
+pars$prior <- dunif(pars$proportion_clicks, min = 0, max = 0.2)
+pars$likelihood <- dbinom(pars$n_visitors, 
+    size = n_ads_shown, prob = pars$proportion_clicks)
+
+# Add the column pars$probability and normalize it
+pars$probability <- pars$likelihood*pars$prior
+pars$probability <- pars$probability/sum(pars$probability)
+
+```
+***
+
+## Conditioning on the data (again)
+
+```r
+n_ads_shown <- 100
+proportion_clicks <- seq(0, 1, by = 0.01)
+n_visitors <- seq(0, 100, by = 1)
+pars <- expand.grid(proportion_clicks = proportion_clicks,
+                    n_visitors = n_visitors)
+pars$prior <- dunif(pars$proportion_clicks, min = 0, max = 0.2)
+pars$likelihood <- dbinom(pars$n_visitors, 
+    size = n_ads_shown, prob = pars$proportion_clicks)
+pars$probability <- pars$likelihood * pars$prior
+pars$probability <- pars$probability / sum(pars$probability)
+# Condition on the data 
+pars <- pars[pars$n_visitors == 6,]
+# Normalize again
+pars$probability <- pars$probability/sum(pars$probability)
+# Plot the posterior pars$probability
+plot(pars$proportion_clicks, pars$probability, type = "h")
+
+```
+
+Output:
+
+![ch4plot3](ch4plot3.png)
+
+
+
+
