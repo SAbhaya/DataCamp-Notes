@@ -161,6 +161,32 @@ Output:
 
 ![ch4plot3](ch4plot3.png)
 
+***
 
+## A conditional shortcut
+
+```r
+# Simplify the code below by directly conditioning on the data
+n_ads_shown <- 100
+proportion_clicks <- seq(0, 1, by = 0.01)
+n_visitors <- 6
+pars <- expand.grid(proportion_clicks = proportion_clicks,
+                    n_visitors = n_visitors)
+pars$prior <- dunif(pars$proportion_clicks, min = 0, max = 0.2)
+pars$likelihood <- dbinom(pars$n_visitors, 
+    size = n_ads_shown, prob = pars$proportion_clicks)
+pars$probability <- pars$likelihood * pars$prior
+
+pars$probability <- pars$probability / sum(pars$probability)
+plot(pars$proportion_clicks, pars$probability, type = "h")
+
+```
+Output:
+
+![ch4plot4](ch4plot4.png)
+
+***
+
+*End of Chapter 5*
 
 
