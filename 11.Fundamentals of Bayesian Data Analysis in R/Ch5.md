@@ -174,3 +174,60 @@ Output:
 
 ***
 
+## The BEST models and zombies on a diet
+
+```r
+
+# The IQ of zombies on a regular diet and a brain based diet.
+iq_brains <- c(44, 52, 42, 66, 53, 42, 55, 57, 56, 51)
+iq_regular <- c(55, 44, 34, 18, 51, 40, 40, 49, 48, 46)
+
+# Calculate the mean difference in IQ between the two groups
+mean(iq_brains) - mean(iq_regular)
+
+# Fit the BEST model to the data from both groups
+library(BEST)
+best_posterior <- BESTmcmc(iq_brains, iq_regular)
+
+# Plot the model result
+plot(best_posterior)
+
+```
+
+Output:
+
+![ch5plot6](ch5plot6.png)
+
+There is some evidence that eating brains makes zombies smarter, but it's uncertain by how much.
+
+***
+
+## BEST is robust
+
+```r
+
+# The IQ of zombies given a regular diet and a brain based diet.
+iq_brains <- c(44, 52, 42, 66, 53, 42, 55, 57, 56, 51)
+iq_regular <- c(55, 44, 34, 18, 51, 40, 40, 49, 48, 150) # <- Mutant zombie
+
+# Modify the data above and calculate the difference in means
+mean(iq_brains) - mean(iq_regular)
+
+# Fit the BEST model to the modified data and plot the result
+library(BEST)
+best_posterior <- BESTmcmc(iq_brains, iq_regular)
+plot(best_posterior)
+
+```
+
+Output:
+
+![ch5plot7](ch5plot7.png)
+
+
+There is weak evidence that eating brains make zombies smarter. And we should be better at screening for mutant zombies when doing experiments.
+
+***
+*End of Chapter 5*
+
+
