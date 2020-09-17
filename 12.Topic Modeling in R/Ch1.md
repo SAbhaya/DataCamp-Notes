@@ -140,3 +140,63 @@ d_5 0.2777778 0.7222222
 
 ***
 
+## Simple LDA model
+
+# Generate the document-term matrix
+
+```r
+# Generate the document-term matrix
+dtm <- corpus %>% 
+   unnest_tokens(input=text, output=word) %>% 
+   count(id, word) %>% 
+   cast_dtm(document=id, term=word, value=n)
+
+# Run the LDA for two topics
+mod <- LDA(x=dtm, k=2, method="Gibbs",control=list(alpha=1, delta=0.1, seed=10005))
+
+# Retrieve the probabilities of word `will` belonging to topics 1 and 2
+tidy(mod, matrix="beta") %>%
+  filter(term == "will")
+
+# Make a stacked column chart showing the probabilities of documents belonging to topics
+tidy(mod, matrix="gamma") %>% 
+  mutate(topic = as.factor(topic)) %>% 
+  ggplot(aes(x=document, y=gamma)) + 
+  geom_col(aes(fill=topic))
+
+```
+Output:
+
+```bash
+
+> # Generate the document-term matrix
+> dtm <- corpus %>% 
+     unnest_tokens(input=text, output=word) %>% 
+     count(id, word) %>% 
+     cast_dtm(document=id, term=word, value=n)
+> 
+> # Run the LDA for two topics
+> mod <- LDA(x=dtm, k=2, method="Gibbs",control=list(alpha=1, delta=0.1, seed=10005))
+> 
+> # Retrieve the probabilities of word `will` belonging to topics 1 and 2
+> tidy(mod, matrix="beta") %>%
+    filter(term == "will")
+# A tibble: 2 x 3
+  topic term     beta
+  <int> <chr>   <dbl>
+1     1 will  0.00365
+2     2 will  0.0787
+> 
+> # Make a stacked column chart showing the probabilities of documents belonging to topics
+> tidy(mod, matrix="gamma") %>% 
+    mutate(topic = as.factor(topic)) %>% 
+    ggplot(aes(x=document, y=gamma)) + 
+    geom_col(aes(fill=topic))
+>
+
+```
+
+![ch1plot1](ch1plot1.png)
+
+***
+
