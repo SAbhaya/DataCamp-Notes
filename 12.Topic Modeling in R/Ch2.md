@@ -212,3 +212,73 @@ Docs  warwick
 > 
 
 ```
+***
+
+## Keeping the needed words
+
+```r
+
+# Perform inner_join with the dictionary table
+dtm <- corpus %>%
+  unnest_tokens(output=word, input=text) %>%
+  inner_join(dictionary) %>% 
+  count(id, word) %>%
+  cast_dtm(document=id, term=word, value=n)
+
+# Display the summary of dtm
+as.matrix(dtm)
+
+```
+
+Output:
+
+```bash
+> # Perform inner_join with the dictionary table
+> dtm <- corpus %>%
+    unnest_tokens(output=word, input=text) %>%
+    inner_join(dictionary) %>% 
+    count(id, word) %>%
+    cast_dtm(document=id, term=word, value=n)
+Joining, by = "word"
+> 
+> # Display the summary of dtm
+> as.matrix(dtm)
+     Terms
+Docs  bank fines loans pay new opened restaurant
+  d_1    1     1     1   1   0      0          0
+  d_2    1     1     1   1   0      0          0
+  d_3    0     0     0   0   1      1          1
+  d_4    0     0     0   0   1      1          1
+  d_5    0     0     1   1   0      1          1
+> 
+
+
+```
+
+***
+
+## Wordcloud of term frequency
+
+```r
+
+# Generate the counts of words in the corpus
+word_frequencies <- corpus %>% 
+  unnest_tokens(input=text, output=word) %>%
+  count(word)
+
+# Create a wordcloud
+wordcloud(words=word_frequencies$word, 
+          freq=word_frequencies$n,
+          min.freq=1,
+          max.words=10,
+          colors=c("DarkOrange", "Blue"),
+          random.order=FALSE,
+          random.color=FALSE)
+```
+
+Output:
+
+![ch2plot1](ch2plot1.png)
+
+***
+
