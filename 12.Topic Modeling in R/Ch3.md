@@ -254,3 +254,100 @@ topics <- tidy(mod, matrix="gamma") %>%
 ```
 
 ***
+
+## Train a topic model
+
+```r
+# Set random seed for reproducability
+set.seed(12345)
+
+# Take a sample of 20 random integers, without replacement
+r <- sample.int(n=nrow(corpus2), size=20, replace=FALSE)
+
+# Generate a document-term matrix
+train_dtm <- corpus2[-r, ] %>% unnest_tokens(input=doc, output=word) %>% 
+  count(doc_id, word) %>% 
+  cast_dtm(document=doc_id, term=word, value=n)
+
+# Fit an LDA topic model for k=3
+train_mod <- LDA(x=train_dtm, k=3, method="Gibbs",
+                control=list(alpha=1, seed=10001,
+                             iter=1000, thin=1)
+			     
+```
+***
+
+## Align corpus
+
+```r
+# Get the test row indices
+set.seed(12345)
+r <- sample.int(n=nrow(corpus2), size=20, replace=FALSE)
+
+# Extract the vocabulary of the training model
+model_vocab <- tidy(train_mod, matrix="beta") %>% 
+  select(term) %>% distinct()
+
+# Create a table of counts with aligned vocabularies
+test_table <- corpus2[r, ] %>% unnest_tokens(input=doc, output=word) %>% 
+  count(doc_id, word) %>%
+  right_join(model_vocab, by=c("word"="term"))
+
+# Prepare a document-term matrix
+test_dtm <- test_table %>% 
+  arrange(desc(doc_id)) %>% 
+  mutate(doc_id = ifelse(is.na(doc_id), first(doc_id), doc_id),
+      n = ifelse(is.na(n), 0, n)) %>% 
+  cast_dtm(document=doc_id, term=word, value=n)
+  
+ ```
+ 
+ ***
+ 
+ ## Classify test data
+ 
+ ```r
+ 
+ # Obtain posterior probabilities for test documents
+results <- posterior(object=train_mod, newdata=test_dtm)
+
+# Display the matrix with topic probabilities
+results$topics
+
+```
+
+Output:
+
+```bash
+
+# Obtain posterior probabilities for test documents
+results <- posterior(object=train_mod, newdata=test_dtm)
+# Display the matrix with topic probabilities
+results$topics
+                           1         2          3
+ Visigothic        0.1428571 0.2857143 0.57142857
+ Theodorics        0.3000000 0.2000000 0.50000000
+ Stephen Lecapenus 0.3333333 0.3333333 0.33333333
+ St. Louis         0.2000000 0.6000000 0.20000000
+ Po                0.7142857 0.1428571 0.14285714
+ Patriarch Sergius 0.2857143 0.4285714 0.28571429
+ Parthian          0.2857143 0.1428571 0.57142857
+ Paris             0.4000000 0.4000000 0.20000000
+ John Cantacuzenus 0.2500000 0.5000000 0.25000000
+ Hunnish           0.1666667 0.1666667 0.66666667
+ Hun               0.5714286 0.2857143 0.14285714
+ Germans           0.7142857 0.2380952 0.04761905
+ Gaul              0.1428571 0.7142857 0.14285714
+ Gainas            0.2592593 0.6296296 0.11111111
+ Empress           0.5714286 0.2857143 0.14285714
+ Central Italy     0.4285714 0.4285714 0.14285714
+ Cappadocian       0.3333333 0.1666667 0.50000000
+ Caesar            0.4000000 0.4000000 0.20000000
+ Amalphi           0.5714286 0.1428571 0.28571429
+ Abu Obeida        0.2000000 0.2000000 0.60000000
+>
+
+
+```
+ 
+ 
