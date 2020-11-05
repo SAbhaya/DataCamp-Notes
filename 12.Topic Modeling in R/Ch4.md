@@ -113,3 +113,18 @@ Output:
 ![ch4plot2](ch4plot2.png)
 
 ***
+
+## Generating chunk numbers
+
+```r
+
+t <- history %>% 
+        # Unnest the tokens
+		unnest_tokens(input=text, output=word) %>% 
+        # Create a word index column
+		mutate(word_index = 1:n()) %>% 
+        # Create a document number column
+		mutate(document_number = word_index %/% 1000 + 1)
+      
+```
+
