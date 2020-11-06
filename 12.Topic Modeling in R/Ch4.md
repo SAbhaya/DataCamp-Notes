@@ -128,3 +128,56 @@ t <- history %>%
       
 ```
 
+***
+
+## Inner join and cast dtm
+
+```r
+
+dtm <- t %>% 
+    # Join verbs on "word" and "past"
+	inner_join(verbs, by=c("word"="past")) %>% 
+    # Count word
+	count(document_number, word) %>% 
+    # Create a document-term matrix
+	cast_dtm(document=document_number, term=word, value=n)
+
+```
+
+***
+
+## Finding the best value for k
+
+```r
+p(dtm=dtm, k=3)
+
+```
+Run the function for values of k equal to 5, 6, 7, 8, 9, and 10
+
+> k=9 has lower perplexity and is a better choice.
+
+***
+
+## Topics without seedwords
+
+```r
+
+# Store the names of documents in a vector
+required_documents <- c(" Africa", " Emperor Heraclius", 
+                       " Adrianople", " Daniel", " African")
+
+# Convert table into wide format
+tidy(mod, matrix="gamma") %>% 
+   spread(key=topic, value=gamma) %>% 
+   # Keep only the rows with document names matching the required documents
+   filter(document %in% required_documents)
+
+```
+
+***
+
+## Topics with seedwords
+
+
+
+
