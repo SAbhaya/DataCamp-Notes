@@ -178,6 +178,40 @@ tidy(mod, matrix="gamma") %>%
 
 ## Topics with seedwords
 
+```r
 
+# Set up the column names
+colnames(seedwords) <- colnames(dtm)
 
+# Set the weights
+seedwords[1, "defeated_l2"] = 1
+seedwords[2, "across_l2"] = 1
 
+# Fit the topic model
+mod <- LDA(dtm, k=3, method="Gibbs",
+         seedwords=seedwords,
+         control=list(alpha=1, iter=500, seed=1234))
+
+# Examine topic assignment in the fitted model
+tidy(mod, "gamma") %>% spread(key= "topic", "gamma") %>% 
+	filter(document %in% c(" Daniel", " Adrianople", " African"))
+
+```
+
+Output:
+
+```bash
+
+# Examine topic assignment in the fitted model
+tidy(mod, "gamma") %>% spread(key= "topic", "gamma") %>% 
+	filter(document %in% c(" Daniel", " Adrianople", " African"))
+# A tibble: 3 x 4
+  document        `1`   `2`   `3`
+  <chr>         <dbl> <dbl> <dbl>
+1 " Adrianople" 0.526 0.263 0.211
+2 " African"    0.105 0.158 0.737
+3 " Daniel"     0.286 0.429 0.286
+
+```
+
+*End of Chapter 4*
