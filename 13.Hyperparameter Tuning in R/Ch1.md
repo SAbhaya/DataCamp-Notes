@@ -71,4 +71,71 @@ Output:
 
 ***
 
+## Machine learning with caret
+
+
+```r# Create partition index
+index <- createDataPartition(breast_cancer_data$diagnosis, p = 0.7, list = FALSE)
+
+# Subset `breast_cancer_data` with index
+bc_train_data <- breast_cancer_data[index, ]
+bc_test_data  <- breast_cancer_data[-index, ]
+
+# Define 3x5 folds repeated cross-validation
+fitControl <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+
+# Run the train() function
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = fitControl,
+                   verbose = FALSE)
+
+# Look at the model
+gbm_model
+
+```
+
+Output:
+
+```bash
+
+# Look at the model
+gbm_model
+Stochastic Gradient Boosting 
+
+70 samples
+10 predictors
+ 2 classes: 'B', 'M' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold, repeated 3 times) 
+Summary of sample sizes: 56, 56, 56, 56, 56, 56, ... 
+Resampling results across tuning parameters:
+
+  interaction.depth  n.trees  Accuracy   Kappa    
+  1                   50      0.9000000  0.8000000
+  1                  100      0.8857143  0.7714286
+  1                  150      0.8904762  0.7809524
+  2                   50      0.8952381  0.7904762
+  2                  100      0.8904762  0.7809524
+  2                  150      0.8857143  0.7714286
+  3                   50      0.8952381  0.7904762
+  3                  100      0.8952381  0.7904762
+  3                  150      0.8904762  0.7809524
+
+Tuning parameter 'shrinkage' was held constant at a value of 0.1
+
+Tuning parameter 'n.minobsinnode' was held constant at a value of 10
+Accuracy was used to select the optimal model using the largest value.
+The final values used for the model were n.trees = 50, interaction.depth =
+ 1, shrinkage = 0.1 and n.minobsinnode = 10.
+>
+
+```
+
+***
+
+
+
 
