@@ -48,3 +48,27 @@ coefficients(linear_model)
 
 
 ```
+***
+
+## What are the coefficients?
+
+```r
+
+library(ggplot2)
+
+# Plot linear relationship.
+ggplot(data = breast_cancer_data, 
+        aes(x = symmetry_mean, y = concavity_mean)) +
+  geom_point(color = "grey") +
+  geom_abline(slope = linear_model$coefficients[2], 
+      intercept = linear_model$coefficients[1])
+      
+```
+
+Output:
+
+![ch1plot1](ch1plot1.png)
+
+***
+
+
