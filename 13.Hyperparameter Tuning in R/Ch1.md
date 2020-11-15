@@ -136,6 +136,58 @@ The final values used for the model were n.trees = 50, interaction.depth =
 
 ***
 
+## Changing the number of hyperparameters to tune
+
+Test four different values for each hyperparameter with automatic tuning in caret.
+
+> tuneLength = 4
+
+
+```r
+
+# Set seed.
+set.seed(42)
+# Start timer.
+tic()
+# Train model.
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
+                   verbose = FALSE,
+                   tuneLength = 4)
+# Stop timer.
+toc()
+
+```
+
+## Tune hyperparameters manually
+
+Define the following hyperparameter grid for a Gradient Boosting Model: the number of trees as 200; the tree complexity as 1; the learning rate as 0.1 and the minimum number of training set samples in a node to commence splitting as 10.
+
+
+```r
+# Define hyperparameter grid.
+hyperparams <- expand.grid(n.trees = 200, 
+                            interaction.depth= 1, 
+                            shrinkage = 0.1, 
+                            n.minobsinnode = 10)
+
+# Apply hyperparameter grid to train().
+set.seed(42)
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
+                   verbose = FALSE,
+                   tuneGrid = hyperparams)
+ 
+ 
+```
+
+***
+
+*End of Chapter 1*
 
 
 
