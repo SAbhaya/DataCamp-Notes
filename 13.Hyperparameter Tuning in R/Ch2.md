@@ -135,5 +135,33 @@ In caret, it is not possible to perform a random search on a defined grid.
 
 ***
 
+## Adaptive Resampling
 
+Adaptive Resampling does not necessarily find better hyperparameter combinations, it is just more efficient at searching.
+
+## Adaptive Resampling with caret
+
+```r
+
+# Define trainControl function
+fitControl <- trainControl(method = "adaptive_cv",
+                           number = 3, repeats = 3,
+                           adaptive = list(min = 3, alpha = 0.05, method = "BT", complete = FALSE),
+                           search = "random")
+
+# Start timer & train model
+tic()
+svm_model_voters_ar <- train(turnout16_2016 ~ ., 
+                   data = voters_train_data, 
+                   method = "nnet", 
+                   trControl = fitControl,
+                   verbose = FALSE,
+                   tuneLength = 6)
+toc()
+
+```
+
+***
+
+*End of Chapter 2*
 
