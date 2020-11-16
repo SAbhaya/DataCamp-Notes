@@ -82,5 +82,58 @@ Output:
 
 ***
 
+## Grid search with range of hyperparameters
+
+```r
+
+# Define the grid with hyperparameter ranges
+big_grid <- expand.grid(size = seq(from = 1, to = 5, by = 1), decay = c(0, 1))
+
+# Train control with grid search
+fitControl <- trainControl(method = "repeatedcv", number = 3, repeats = 5, search = "grid")
+
+# Train neural net
+tic()
+set.seed(42)
+nn_model_voters_big_grid <- train(turnout16_2016 ~ ., 
+                   data = voters_train_data, 
+                   method = "nnet", 
+                   trControl = fitControl,
+                   verbose = FALSE,
+                   tuneGrid = big_grid)
+toc()
+
+```
+
+***
+
+## Random search with caret
+
+```r
+
+# Train control with random search
+fitControl <- trainControl(method = "repeatedcv",
+                           number = 3,
+                           repeats = 5,
+                           search = "random")
+
+# Test 6 random hyperparameter combinations
+tic()
+nn_model_voters_big_grid <- train(turnout16_2016 ~ ., 
+                   data = voters_train_data, 
+                   method = "nnet", 
+                   trControl = fitControl,
+                   verbose = FALSE,
+                   tuneLength = 6)
+toc()
+
+```
+
+## Random search with caret
+
+In caret, it is not possible to perform a random search on a defined grid.
+
+***
+
 
 
