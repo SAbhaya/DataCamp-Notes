@@ -206,4 +206,77 @@ toc()
 ```
 ***
 
+## Why to evaluate tuning?
+
+What can you learn from evaluating hyperparameter tuning results?
+
+> Which hyperparameters have a strong effect on model performance.
+
+## Evaluating hyperparameter tuning results
+
+```r
+
+# Create holdout sampling
+holdout <- makeResampleDesc("Holdout")
+
+# Perform tuning
+lrn_tune <- tuneParams(learner = lrn, task = task, resampling = holdout, control = ctrl_random, par.set = param_set)
+
+# Generate hyperparameter effect data
+hyperpar_effects <- generateHyperParsEffectData(lrn_tune, partial.dep = TRUE)
+
+# Plot hyperparameter effects
+plotHyperParsEffect(hyperpar_effects, 
+    partial.dep.learn = "regr.glm",
+    x = "minsplit", y = "mmce.test.mean", z = "maxdepth",
+    plot.type = "line")
+    
+```
+
+Output:
+
+![ch3plot1](ch3plot1.png)
+
+***
+
+## Define aggregated measures
+
+```r
+
+# Create holdout sampling
+holdout <- makeResampleDesc("Holdout", predict = "both")
+
+# Perform tuning
+lrn_tune <- tuneParams(learner = lrn, 
+                       task = task, 
+                       resampling = holdout, 
+                       control = ctrl_random, 
+                       par.set = param_set,
+                       measures = list(acc, setAggregation(acc, train.mean), mmce, setAggregation(mmce, train.mean)))
+                       
+```
+
+***
+
+## Setting hyperparameters
+
+```r
+# Set hyperparameters
+lrn_best <- setHyperPars(lrn, par.vals = list(size = 1, 
+                                              rang = 150, 
+                                              decay = 0))
+
+# Train model
+model_best <- train(lrn_best, task)
+
+```
+
+
+***
+
+*End of Chapter 3*
+
+
+
+
 
