@@ -19,7 +19,7 @@ lrn <- makeLearner("classif.randomForest",
 ```
 
 
-Ouput"
+Ouput:
 
 ```bash
 # Create classification tasks
@@ -127,6 +127,83 @@ lrn <- makeLearner("classif.randomForest",
 
 ```
 
+***
+
+## Random search with mlr
+
+```r
+
+# Get the parameter set for neural networks of the nnet package
+getParamSet("classif.nnet")
+
+# Define set of parameters
+param_set <- makeParamSet(
+  makeDiscreteParam("size", values = c(2,3,5)),
+  makeNumericParam("decay", lower = 0.0001, upper = 0.1)
+)
+
+# Print parameter set
+print(param_set)
+
+# Define a random search tuning method.
+ctrl_random <- makeTuneControlRandom()
+
+```
+
+Output:
+
+```bash
+
+# Get the parameter set for neural networks of the nnet package
+getParamSet("classif.nnet")
+           Type len    Def      Constr Req Tunable Trafo
+size    integer   -      3    0 to Inf   -    TRUE     -
+maxit   integer   -    100    1 to Inf   -    TRUE     -
+skip    logical   -  FALSE           -   -    TRUE     -
+rang    numeric   -    0.7 -Inf to Inf   -    TRUE     -
+decay   numeric   -      0 -Inf to Inf   -    TRUE     -
+Hess    logical   -  FALSE           -   -    TRUE     -
+trace   logical   -   TRUE           -   -   FALSE     -
+MaxNWts integer   -   1000    1 to Inf   -   FALSE     -
+abstol  numeric   - 0.0001 -Inf to Inf   -    TRUE     -
+reltol  numeric   -  1e-08 -Inf to Inf   -    TRUE     -
+# Define set of parameters
+param_set <- makeParamSet(
+  makeDiscreteParam("size", values = c(2,3,5)),
+  makeNumericParam("decay", lower = 0.0001, upper = 0.1)
+)
+# Print parameter set
+print(param_set)
+          Type len Def        Constr Req Tunable Trafo
+size  discrete   -   -         2,3,5   -    TRUE     -
+decay  numeric   -   - 0.0001 to 0.1   -    TRUE     -
+# Define a random search tuning method.
+ctrl_random <- makeTuneControlRandom()
+
+```
+
+***
+
+## Perform hyperparameter tuning with mlr
+
+```r
+
+# Define a random search tuning method.
+ctrl_random <- makeTuneControlRandom(maxit = 6)
+
+# Define a 3 x 3 repeated cross-validation scheme
+cross_val <- makeResampleDesc("RepCV", folds = 3 * 3)
+
+# Tune hyperparameters
+tic()
+lrn_tune <- tuneParams(lrn,
+                       task,
+                       resampling = cross_val,
+                       control = ctrl_random,
+                       par.set = param_set)
+toc()
+
+```
 ***
 
 
