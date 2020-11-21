@@ -139,5 +139,63 @@ Output:
 
 ***
 
+## Calculating the LOO estimate
 
+```r
+
+# Estimate the model with 1 predictor
+model_1pred <- stan_glm(popularity ~ song_age, data = songs)
+
+# Print the LOO estimate for the 1 predictor model
+loo(model_1pred)
+
+# Estimate the model with both predictors
+model_2pred <- stan_glm(popularity ~ song_age * artist_name, data = songs)
+
+# Print the LOO estimates for the 2 predictor model
+loo(model_2pred)
+
+```
+
+Output:
+
+```bash
+
+# Estimate the model with 1 predictor
+model_1pred <- stan_glm(popularity ~ song_age, data = songs)
+# Print the LOO estimate for the 1 predictor model
+loo(model_1pred)
+
+Computed from 1000 by 215 log-likelihood matrix
+
+         Estimate   SE
+elpd_loo   -888.1 12.9
+p_loo         3.3  0.4
+looic      1776.2 25.9
+------
+Monte Carlo SE of elpd_loo is 0.1.
+
+All Pareto k estimates are good (k < 0.5).
+See help('pareto-k-diagnostic') for details.
+# Estimate the model with both predictors
+model_2pred <- stan_glm(popularity ~ song_age * artist_name, data = songs)
+# Print the LOO estimates for the 2 predictor model
+loo(model_2pred)
+
+Computed from 1000 by 215 log-likelihood matrix
+
+         Estimate   SE
+elpd_loo   -864.5 12.6
+p_loo         6.3  0.8
+looic      1729.0 25.2
+------
+Monte Carlo SE of elpd_loo is 0.1.
+
+All Pareto k estimates are good (k < 0.5).
+See help('pareto-k-diagnostic') for details.
+
+```
+***
+
+*End of Chapter 4*
 
