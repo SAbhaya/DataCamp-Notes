@@ -320,8 +320,131 @@ Output:
 
 ![ch4plot2](ch4plot2.png)
 
+***
+
+## Random Forest: modeling
+
+```r
+# track_data_to_model_tbl has been pre-defined
+track_data_to_model_tbl
+
+# Get the timbre columns
+feature_colnames <- track_data_to_model_tbl %>%
+    colnames() %>%
+    str_subset(pattern = fixed("timbre"))
+
+# Run the random forest model
+random_forest_model <- track_data_to_model_tbl %>%
+    ml_random_forest(features = feature_colnames, response = "year")
+
+```
+***
+## Random Forest: prediction
+
+```r
+
+# training, testing sets & model are pre-defined
+track_data_to_model_tbl
+track_data_to_predict_tbl
+random_forest_model
+
+# Create a response vs. actual dataset
+responses <- track_data_to_predict_tbl %>%
+    select(year) %>%
+    collect() %>%
+    mutate(
+    predicted_year = predict(
+      random_forest_model,
+      track_data_to_predict_tbl
+    )
+  )
+```
+
+***
+
+## Random Forest: visualization
+
+```r
+
+# both_responses has been pre-defined
+both_responses
+
+# Draw a scatterplot of predicted vs. actual
+ggplot(both_responses, aes(actual, predicted, color = model)) +
+  # Add a smoothed line
+  geom_smooth() +
+  # Add a line at actual = predicted
+  geom_abline(intercept = 0, slope = 1)
+
+# Create a tibble of residuals
+residuals <- both_responses %>%
+  mutate(residual = predicted - actual)
+
+# Draw a density plot of residuals
+ggplot(residuals, aes(residual, color = model)) +
+    # Add a density curve
+    geom_density() +
+    # Add a vertical line through zero
+    geom_vline(xintercept = 0)
+
+```
+
+Output:
+
+![ch4plot3](ch4plot3.png)
+
+![ch4plot4](ch4plot4.png)
 
 
+***
+
+## Comparing model performance
+
+```r
+
+# both_responses has been pre-defined
+both_responses
+
+# Create a residual sum of squares dataset
+both_responses %>%
+    mutate(residual = predicted - actual) %>%
+    group_by(model) %>%
+    summarize(rmse = sqrt(mean(residual^2)))
+    
+```
+
+Output:
+
+```bash
+
+# both_responses has been pre-defined
+both_responses
+# A tibble: 730 x 3
+   actual model predicted
+    <int> <chr>     <dbl>
+ 1   1940 gbt       1952.
+ 2   1934 gbt       1951.
+ 3   1931 gbt       1969.
+ 4   1939 gbt       1940.
+ 5   1940 gbt       1951.
+ 6   1935 gbt       1938.
+ 7   1940 gbt       1954.
+ 8   1936 gbt       1949.
+ 9   1936 gbt       1969.
+10   1940 gbt       1952.
+# ... with 720 more rows
+# Create a residual sum of squares dataset
+both_responses %>%
+    mutate(residual = predicted - actual) %>%
+    group_by(model) %>%
+    summarize(rmse = sqrt(mean(residual^2)))
+# A tibble: 2 x 2
+  model  rmse
+  <chr> <dbl>
+1 gbt    17.7
+2 rf     16.4
 
 
+```
 
+*End of Chapter 4*
