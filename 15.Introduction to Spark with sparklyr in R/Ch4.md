@@ -318,7 +318,7 @@ Output:
 
 ![ch4plot1](ch4plot1.png)
 
-![ch4plot2]ch4plot2.png)
+![ch4plot2](ch4plot2.png)
 
 
 
